@@ -64,17 +64,17 @@ export function Section({
         {(kicker || title || subtitle) && (
           <header className="max-w-3xl mb-10 sm:mb-14">
             {kicker && (
-              <p className="text-xs sm:text-sm font-medium tracking-[0.16em] text-teal-300/90 uppercase mb-2.5">
+              <p className="text-xs sm:text-sm font-bold tracking-[0.16em] text-[#22c55e] uppercase mb-2.5">
                 {kicker}
               </p>
             )}
             {title && (
-              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#f6f0e3] tracking-wide">
+              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-wide">
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className="mt-3 text-base sm:text-lg text-[#c5beae] leading-relaxed">
+              <p className="mt-3 text-base sm:text-lg text-[#cccccc] leading-relaxed">
                 {subtitle}
               </p>
             )}

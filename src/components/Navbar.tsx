@@ -7,12 +7,17 @@ import {SocialIcon} from './SocialIcon';
 interface NavLinkItem {
   id: string;
   label: string;
+  isPage?: boolean;
+}
+
+interface NavbarProps {
+  currentPage: 'home' | 'explore';
+  onNavigateHomeSection: (sectionId?: string) => void;
+  onNavigateExplore: () => void;
 }
 
 const NAV_LINKS: NavLinkItem[] = [
-  {id: 'about', label: 'Game'},
-  {id: 'features', label: 'Features'},
-  {id: 'regions', label: 'Regions'},
+  {id: 'explore', label: 'Explore Game', isPage: true},
   {id: 'screenshots', label: 'Screenshots'},
   {id: 'download', label: 'Download'},
   {id: 'news', label: 'News'},
@@ -20,18 +25,27 @@ const NAV_LINKS: NavLinkItem[] = [
   {id: 'faq', label: 'FAQ'},
 ];
 
-export function Navbar() {
+export function Navbar({
+  currentPage,
+  onNavigateHomeSection,
+  onNavigateExplore,
+}: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>('hero');
 
-  // Highlight active section while scrolling
   useEffect(() => {
-    const sectionIds = ['hero', ...NAV_LINKS.map((l) => l.id)];
+    if (currentPage === 'explore') {
+      setActiveId('explore');
+      return;
+    }
+
+    const sectionIds = ['hero', ...NAV_LINKS.filter((l) => !l.isPage).map((l) => l.id)];
     const elements = sectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     if (elements.length === 0 || typeof IntersectionObserver === 'undefined') {
+      setActiveId('hero');
       return;
     }
 
@@ -54,9 +68,8 @@ export function Navbar() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [currentPage]);
 
-  // Close mobile menu on Escape
   useEffect(() => {
     if (!mobileOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -71,38 +84,55 @@ export function Navbar() {
   const desktopSocials = siteConfig.socialLinks
     .filter((s) => s.enabled && ['youtube', 'discord', 'itch', 'steam'].includes(s.id));
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
+    e.preventDefault();
+    setMobileOpen(false);
+    if (link.isPage) {
+      onNavigateExplore();
+    } else {
+      onNavigateHomeSection(link.id);
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-40 border-b border-amber-200/15 bg-[#0b101b]/92 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-[#262626] bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        {/* Brand */}
         <a
-          href="#hero"
-          aria-label="Journey Home — Back to top"
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            setMobileOpen(false);
+            onNavigateHomeSection();
+          }}
+          aria-label="Journey Home — Back to home"
           className="rounded-md focus-visible:outline-offset-4 shrink-0"
         >
           <Logo />
         </a>
 
-        {/* Desktop navigation */}
         <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-5 xl:gap-6">
           {NAV_LINKS.map((link) => {
-            const isActive = activeId === link.id;
+            const isActive =
+              (link.isPage && currentPage === 'explore') ||
+              (!link.isPage && currentPage === 'home' && activeId === link.id);
+
             return (
               <a
                 key={link.id}
-                href={`#${link.id}`}
-                aria-current={isActive ? 'location' : undefined}
+                href={link.isPage ? '#/explore' : `#${link.id}`}
+                onClick={(e) => handleLinkClick(e, link)}
+                aria-current={isActive ? 'page' : undefined}
                 className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors ${
                   isActive
-                    ? 'text-amber-300'
-                    : 'text-[#d5cebe] hover:text-white'
+                    ? 'text-[#facc15]'
+                    : 'text-[#d4d4d4] hover:text-white'
                 }`}
               >
                 {link.label}
                 {isActive && (
                   <span
                     aria-hidden="true"
-                    className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-gradient-to-r from-amber-400/80 via-teal-300 to-amber-400/80 rounded-full"
+                    className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-[#facc15] rounded-full"
                   />
                 )}
               </a>
@@ -110,21 +140,32 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Desktop right zone: compact social row + primary Download button */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <div className="hidden xl:flex items-center gap-0.5 pr-1 border-r border-amber-200/15">
+          <div className="hidden xl:flex items-center gap-0.5 pr-1 border-r border-[#262626]">
             {desktopSocials.map((social) => (
               <SocialIcon key={social.id} social={social} variant="compact" />
             ))}
           </div>
-          <Button href="#download" variant="primary" size="sm">
+          <Button
+            href="#download"
+            onClick={() => onNavigateHomeSection('download')}
+            variant="primary"
+            size="sm"
+          >
             Download
           </Button>
         </div>
 
-        {/* Mobile hamburger toggle */}
         <div className="flex lg:hidden items-center gap-2 shrink-0">
-          <Button href="#download" variant="primary" size="sm">
+          <Button
+            href="#download"
+            onClick={() => {
+              setMobileOpen(false);
+              onNavigateHomeSection('download');
+            }}
+            variant="primary"
+            size="sm"
+          >
             Download
           </Button>
           <button
@@ -133,7 +174,7 @@ export function Navbar() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav-drawer"
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className="inline-flex items-center justify-center w-11 h-11 rounded-lg border border-amber-200/20 bg-[#121a2a] text-[#efe8d8] hover:border-amber-200/45 transition-colors"
+            className="inline-flex items-center justify-center w-11 h-11 rounded-lg border border-[#333333] bg-[#111111] text-white hover:border-[#facc15] transition-colors"
           >
             {mobileOpen ? (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5" aria-hidden="true">
@@ -148,26 +189,27 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile navigation drawer */}
       {mobileOpen && (
         <nav
           id="mobile-nav-drawer"
           aria-label="Mobile navigation"
-          className="lg:hidden border-t border-amber-200/15 bg-[#0d1423] px-4 py-4"
+          className="lg:hidden border-t border-[#262626] bg-[#0a0a0a] px-4 py-4"
         >
           <ul className="grid grid-cols-2 gap-2">
             {NAV_LINKS.map((link) => {
-              const isActive = activeId === link.id;
+              const isActive =
+                (link.isPage && currentPage === 'explore') ||
+                (!link.isPage && currentPage === 'home' && activeId === link.id);
               return (
                 <li key={link.id}>
                   <a
-                    href={`#${link.id}`}
-                    onClick={() => setMobileOpen(false)}
-                    aria-current={isActive ? 'location' : undefined}
+                    href={link.isPage ? '#/explore' : `#${link.id}`}
+                    onClick={(e) => handleLinkClick(e, link)}
+                    aria-current={isActive ? 'page' : undefined}
                     className={`flex items-center min-h-[44px] px-3.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-amber-500/15 text-amber-300 border border-amber-400/35'
-                        : 'text-[#dfd8c8] hover:bg-white/5 border border-transparent'
+                        ? 'bg-[#facc15] text-black font-bold border border-[#facc15]'
+                        : 'text-[#e5e5e5] bg-[#141414] border border-[#262626] hover:border-[#22c55e]'
                     }`}
                   >
                     {link.label}

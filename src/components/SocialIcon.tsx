@@ -118,14 +118,14 @@ export function SocialIcon({social, variant = 'compact'}: SocialIconProps) {
           target={isMail ? undefined : '_blank'}
           rel={isMail ? undefined : 'noopener noreferrer'}
           aria-label={`${social.label} (opens in a new window)`}
-          className="group flex items-center gap-3.5 min-h-[52px] px-4 py-3 rounded-xl stone-panel-subtle hover:border-teal-400/50 hover:bg-[#19243b] transition-all duration-200 active:translate-y-px"
+          className="group flex items-center gap-3.5 min-h-[52px] px-4 py-3 rounded-xl bg-[#111111] border border-[#2e2e2e] hover:border-[#22c55e] transition-colors active:translate-y-px"
         >
-          <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-amber-500/10 text-amber-300 group-hover:text-teal-300 group-hover:bg-teal-400/15 transition-colors shrink-0">
+          <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#facc15] text-black group-hover:bg-[#22c55e] transition-colors shrink-0">
             <PlatformGlyph id={social.id} className="w-5 h-5" />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[#f3ede0] truncate">{social.label}</span>
-            <span className="block text-xs text-teal-300/90">Visit channel</span>
+            <span className="block text-sm font-semibold text-white truncate">{social.label}</span>
+            <span className="block text-xs text-[#22c55e] font-medium">Visit channel</span>
           </span>
         </a>
       );
@@ -136,14 +136,14 @@ export function SocialIcon({social, variant = 'compact'}: SocialIconProps) {
         role="img"
         aria-label={`${social.label} — link coming soon`}
         title="Link coming soon"
-        className="flex items-center gap-3.5 min-h-[52px] px-4 py-3 rounded-xl border border-amber-200/10 bg-[#111827]/55 opacity-55 cursor-not-allowed select-none"
+        className="flex items-center gap-3.5 min-h-[52px] px-4 py-3 rounded-xl border border-[#222222] bg-[#0b0b0b] cursor-not-allowed select-none"
       >
-        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-slate-800/80 text-slate-400 shrink-0">
+        <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#171717] text-[#737373] shrink-0">
           <PlatformGlyph id={social.id} className="w-5 h-5" />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block text-sm font-medium text-[#d7d0c0] truncate">{social.label}</span>
-          <span className="block text-xs text-slate-400">Coming soon</span>
+          <span className="block text-sm font-medium text-[#a3a3a3] truncate">{social.label}</span>
+          <span className="block text-xs text-[#737373]">Coming soon</span>
         </span>
       </span>
     );
@@ -158,7 +158,7 @@ export function SocialIcon({social, variant = 'compact'}: SocialIconProps) {
         rel={isMail ? undefined : 'noopener noreferrer'}
         aria-label={social.label}
         title={social.label}
-        className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-[#cfc7b5] hover:text-teal-300 hover:bg-white/5 transition-colors"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-[#d4d4d4] hover:text-[#22c55e] hover:bg-[#141414] transition-colors"
       >
         <PlatformGlyph id={social.id} className="w-4 h-4" />
       </a>
@@ -170,7 +170,7 @@ export function SocialIcon({social, variant = 'compact'}: SocialIconProps) {
       role="img"
       aria-label={`${social.label} (Link coming soon)`}
       title="Link coming soon"
-      className="inline-flex items-center justify-center w-9 h-9 rounded-lg text-[#9a9284]/45 cursor-not-allowed select-none"
+      className="inline-flex items-center justify-center w-9 h-9 rounded-lg text-[#525252] cursor-not-allowed select-none"
     >
       <PlatformGlyph id={social.id} className="w-4 h-4" />
     </span>

@@ -81,10 +81,10 @@ export interface RegionItem {
   theme: {
     /** Primary accent hex for highlights and active borders */
     accentHex: string;
-    /** Secondary accent hex for gradients */
+    /** Secondary accent hex */
     secondaryHex: string;
-    /** Subtle surface tint class */
-    cardGradient: string;
+    /** Solid surface class */
+    cardSurface: string;
     /** Placeholder illustration variant */
     sceneVariant: 'shore' | 'woods' | 'sunken' | 'peaks' | 'sky';
   };
@@ -360,9 +360,9 @@ export const siteConfig = {
         'Your journey begins where tidewater meets weathered stone. Follow tropical beaches into echoing sea caves and awaken the first dormant shrines along the coast.',
       mechanics: ['Coastal traversal', 'Echoing sea caves', 'Introductory switches & ruins'],
       theme: {
-        accentHex: '#2dd4bf',
-        secondaryHex: '#e6b873',
-        cardGradient: 'from-[#102b33]/90 via-[#111c2d]/95 to-[#1e1b18]/90',
+        accentHex: '#22c55e',
+        secondaryHex: '#facc15',
+        cardSurface: 'bg-[#111111]',
         sceneVariant: 'shore',
       },
       image: {
@@ -379,9 +379,9 @@ export const siteConfig = {
         'Step beneath a glowing canopy alive with lantern-lit flora, cascading waterfalls, and suspended bridges connecting overgrown stone terraces.',
       mechanics: ['Suspended rope bridges', 'Waterfall paths', 'Forest light beacons'],
       theme: {
-        accentHex: '#34d399',
-        secondaryHex: '#2dd4bf',
-        cardGradient: 'from-[#0d2a24]/90 via-[#0f1d24]/95 to-[#0b151c]/95',
+        accentHex: '#22c55e',
+        secondaryHex: '#facc15',
+        cardSurface: 'bg-[#111111]',
         sceneVariant: 'woods',
       },
       image: {
@@ -398,9 +398,9 @@ export const siteConfig = {
         'Descend into half-submerged marble halls where golden light filters through deep water. Search for ancient keys to unlock sealed temple doors.',
       mechanics: ['Flooded chambers', 'Ancient keys & locked gates', 'Submerged stone walkways'],
       theme: {
-        accentHex: '#f59e0b',
-        secondaryHex: '#3b82f6',
-        cardGradient: 'from-[#0e1f3a]/90 via-[#101829]/95 to-[#221a12]/90',
+        accentHex: '#facc15',
+        secondaryHex: '#22c55e',
+        cardSurface: 'bg-[#111111]',
         sceneVariant: 'sunken',
       },
       image: {
@@ -417,9 +417,9 @@ export const siteConfig = {
         'Climb high above the treeline into crystalline ridges swept by winter winds. Time your jumps across slippery ice platforms beneath shimmering auroras.',
       mechanics: ['Slippery ice platforms', 'High-altitude jumps', 'Aurora-lit cliffs'],
       theme: {
-        accentHex: '#7dd3fc',
-        secondaryHex: '#e0f2fe',
-        cardGradient: 'from-[#13263d]/90 via-[#101a2e]/95 to-[#0c1424]/95',
+        accentHex: '#22c55e',
+        secondaryHex: '#facc15',
+        cardSurface: 'bg-[#111111]',
         sceneVariant: 'peaks',
       },
       image: {
@@ -437,14 +437,14 @@ export const siteConfig = {
         'Rise to the drifting sanctuaries suspended above the island. Unite the five ancient fragments, solve the final sanctuary puzzles, and uncover the truth behind your journey home.',
       mechanics: ['Floating islands', 'Five-fragment convergence', 'Final sanctuary mystery'],
       theme: {
-        accentHex: '#f472b6',
-        secondaryHex: '#fbbf24',
-        cardGradient: 'from-[#27173a]/90 via-[#18162e]/95 to-[#2a1d19]/90',
+        accentHex: '#facc15',
+        secondaryHex: '#22c55e',
+        cardSurface: 'bg-[#111111]',
         sceneVariant: 'sky',
       },
       image: {
         src: '',
-        alt: 'The Sky Temple with floating stone islands bathed in gold, rose, and twilight violet',
+        alt: 'The Sky Temple with floating stone islands bathed in golden and emerald light',
       },
     },
   ] satisfies RegionItem[],

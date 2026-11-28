@@ -28,9 +28,9 @@ export function Trailer() {
             aspectRatio="16/9"
             scene="trailer"
           />
-          <div className="mt-3 px-1 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-[#c4bcab]">
+          <div className="mt-3 px-1 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-[#d4d4d4]">
             <span>{siteConfig.trailer.title}</span>
-            <span className="text-[#999181]">Add a YouTube ID in siteConfig.ts to enable playback</span>
+            <span className="text-[#999999]">Add a YouTube ID in siteConfig.ts to enable playback</span>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@ export function Trailer() {
 
   return (
     <div id="trailer" className="scroll-mt-24 stone-panel rounded-2xl p-3 sm:p-4 mb-12">
-      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-amber-200/20 bg-[#080d17]">
+      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-[#2e2e2e] bg-black">
         {loaded ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(youtubeId)}?autoplay=1&rel=0`}
@@ -65,16 +65,16 @@ export function Trailer() {
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               />
             ) : (
-              <div className="w-full h-full bg-[#0e1728]" />
+              <div className="w-full h-full bg-[#111111]" />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#090e18]/85 via-[#090e18]/35 to-transparent" />
+            <div className="absolute inset-0 bg-black/55" />
             <div className="relative z-10 flex flex-col items-center gap-3">
-              <span className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-amber-500 text-[#0b101b] shadow-[0_8px_30px_rgba(245,158,11,0.5)] group-hover:bg-amber-400 transition-colors">
+              <span className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#facc15] text-black group-hover:bg-[#fde047] transition-colors">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 translate-x-0.5" aria-hidden="true">
                   <path d="M8 5.5v13l11-6.5-11-6.5Z" />
                 </svg>
               </span>
-              <span className="text-sm font-medium text-[#f5efe2] bg-[#0b101b]/75 px-3.5 py-1.5 rounded-md border border-amber-200/20">
+              <span className="text-sm font-semibold text-white bg-black px-3.5 py-1.5 rounded-md border border-[#2e2e2e]">
                 Click to load trailer (youtube-nocookie.com)
               </span>
             </div>

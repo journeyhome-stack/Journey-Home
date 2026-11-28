@@ -14,7 +14,7 @@ export function Community() {
       kicker="Community"
       title="Join the Journey"
       subtitle="Share screenshots from your travels, post fan art, swap puzzle hints, and help shape future updates with your feedback and bug reports."
-      className="bg-[#0d1524]"
+      className="bg-black"
     >
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {enabledSocials.map((social) => (
@@ -24,10 +24,10 @@ export function Community() {
 
       <div className="mt-8 stone-panel-subtle rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="space-y-1 max-w-2xl">
-          <h3 className="font-display text-lg font-semibold text-[#f5efe2]">
+          <h3 className="font-display text-lg font-semibold text-white">
             Feedback, Fan Art &amp; Bug Reports
           </h3>
-          <p className="text-sm text-[#c7bfae]">
+          <p className="text-sm text-[#cccccc]">
             {hasEmail
               ? 'Have a bug report, press inquiry, or fan creation to share? Reach out directly by email.'
               : 'Community links and direct contact details will appear here as soon as they are added in siteConfig.ts.'}

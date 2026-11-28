@@ -86,14 +86,14 @@ export function Lightbox({items, activeIndex, onClose, onChangeIndex}: LightboxP
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="fixed inset-0 z-50 bg-[#060911]/92 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 sm:p-6"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-5xl rounded-2xl border border-amber-200/25 bg-[#0e1524] p-3 sm:p-5 shadow-2xl"
+        className="relative w-full max-w-5xl rounded-2xl border border-[#2e2e2e] bg-[#0f0f0f] p-3 sm:p-5"
       >
         <div className="flex items-center justify-between gap-4 pb-3">
-          <p className="text-xs sm:text-sm font-medium text-[#d7d0c0] tabular-nums">
+          <p className="text-xs sm:text-sm font-medium text-[#d4d4d4] tabular-nums">
             Screenshot {activeIndex + 1} of {items.length}
           </p>
           <button
@@ -101,13 +101,13 @@ export function Lightbox({items, activeIndex, onClose, onChangeIndex}: LightboxP
             type="button"
             onClick={onClose}
             aria-label="Close screenshot viewer"
-            className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 rounded-lg border border-amber-200/20 bg-[#141e33] text-[#f3ede0] hover:border-amber-200/45 transition-colors"
+            className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 rounded-lg border border-[#3a3a3a] bg-black text-white hover:border-[#facc15] transition-colors"
           >
             Close
           </button>
         </div>
 
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-[#070b13]">
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
           <img
             src={current.src}
             alt={current.alt}
@@ -117,14 +117,14 @@ export function Lightbox({items, activeIndex, onClose, onChangeIndex}: LightboxP
         </div>
 
         <div className="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className="text-sm text-[#e8e0cf]">{current.caption}</p>
+          <p className="text-sm text-[#e5e5e5]">{current.caption}</p>
           {items.length > 1 && (
             <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => onChangeIndex((activeIndex - 1 + items.length) % items.length)}
                 aria-label="Previous screenshot"
-                className="min-h-[44px] px-4 rounded-lg border border-amber-200/20 bg-[#141e33] text-xs font-medium text-[#efe8d8] hover:border-amber-200/45 transition-colors"
+                className="min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-black text-xs font-medium text-white hover:border-[#facc15] transition-colors"
               >
                 Previous
               </button>
@@ -132,7 +132,7 @@ export function Lightbox({items, activeIndex, onClose, onChangeIndex}: LightboxP
                 type="button"
                 onClick={() => onChangeIndex((activeIndex + 1) % items.length)}
                 aria-label="Next screenshot"
-                className="min-h-[44px] px-4 rounded-lg border border-amber-200/20 bg-[#141e33] text-xs font-medium text-[#efe8d8] hover:border-amber-200/45 transition-colors"
+                className="min-h-[44px] px-4 rounded-lg border border-[#22c55e] bg-[#22c55e] text-xs font-bold text-black hover:bg-[#4ade80] transition-colors"
               >
                 Next
               </button>

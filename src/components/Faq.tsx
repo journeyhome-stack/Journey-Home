@@ -15,7 +15,7 @@ export function Faq() {
       kicker="Questions"
       title="Frequently Asked Questions"
       subtitle="Everything confirmed so far about platforms, controls, and saving."
-      className="bg-[#0b101b]"
+      className="bg-[#0a0a0a]"
     >
       <div className="max-w-3xl space-y-3">
         {siteConfig.faq.map((item) => {
@@ -32,16 +32,16 @@ export function Faq() {
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => toggle(item.id)}
-                  className="w-full min-h-[56px] px-5 py-4 flex items-center justify-between gap-4 text-left hover:bg-white/[0.03] transition-colors"
+                  className="w-full min-h-[56px] px-5 py-4 flex items-center justify-between gap-4 text-left hover:bg-[#141414] transition-colors"
                 >
-                  <span className="font-display text-base sm:text-lg font-medium text-[#f3ede0]">
+                  <span className="font-display text-base sm:text-lg font-medium text-white">
                     {item.question}
                   </span>
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
-                    className={`w-5 h-5 text-amber-300 shrink-0 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-[#facc15] shrink-0 transition-transform duration-200 ${
                       isOpen ? 'rotate-180' : ''
                     }`}
                   >
@@ -59,7 +59,7 @@ export function Faq() {
                   id={panelId}
                   role="region"
                   aria-labelledby={buttonId}
-                  className="px-5 pb-5 pt-1 text-sm sm:text-base text-[#cbc3b2] leading-relaxed border-t border-amber-200/10"
+                  className="px-5 pb-5 pt-3 text-sm sm:text-base text-[#d4d4d4] leading-relaxed border-t border-[#262626]"
                 >
                   {item.answer}
                 </div>

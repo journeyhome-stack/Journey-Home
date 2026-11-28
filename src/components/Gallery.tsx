@@ -37,7 +37,7 @@ export function Gallery() {
       kicker="Media"
       title="Screenshots &amp; Trailer"
       subtitle="Preview footage and reserved 16:9 gallery frames ready for in-game captures."
-      className="bg-[#0b101b]"
+      className="bg-[#0a0a0a]"
     >
       <Trailer />
 
@@ -53,7 +53,7 @@ export function Gallery() {
                   type="button"
                   onClick={() => openRealShot(shot.id)}
                   aria-label={`Open screenshot: ${shot.caption}`}
-                  className="w-full text-left rounded-xl overflow-hidden border border-amber-200/20 hover:border-amber-300/60 transition-all focus-visible:outline-offset-2"
+                  className="w-full text-left rounded-xl overflow-hidden border border-[#2e2e2e] hover:border-[#facc15] transition-colors focus-visible:outline-offset-2"
                 >
                   <div className="relative overflow-hidden">
                     <PlaceholderImage
@@ -66,7 +66,7 @@ export function Gallery() {
                     />
                   </div>
                 </button>
-                <figcaption className="mt-2 text-xs text-[#c2baa9] leading-snug">
+                <figcaption className="mt-2 text-xs text-[#cccccc] leading-snug">
                   {shot.caption}
                 </figcaption>
               </figure>
@@ -83,7 +83,7 @@ export function Gallery() {
                 aspectRatio="16/9"
                 scene={scene}
               />
-              <figcaption className="mt-2 text-xs text-[#9c9484] leading-snug">
+              <figcaption className="mt-2 text-xs text-[#a3a3a3] leading-snug">
                 {shot.caption}
               </figcaption>
             </figure>

@@ -1,40 +1,60 @@
-import {useRef, useState, type KeyboardEvent, type TouchEvent} from 'react';
+import {useEffect, useRef, useState, type KeyboardEvent, type TouchEvent} from 'react';
 import {siteConfig} from '../config/siteConfig';
-import {PlaceholderImage} from './PlaceholderImage';
-import {Section} from './Section';
+import {PlaceholderImage} from '../components/PlaceholderImage';
 
-export function Regions() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+interface RegionsProps {
+  selectedId?: string;
+  onSelectRegion?: (regionId: string) => void;
+}
+
+export function Regions({selectedId, onSelectRegion}: RegionsProps) {
+  const regions = siteConfig.regions;
+  const initialIndex = selectedId
+    ? Math.max(
+        0,
+        regions.findIndex((r) => r.id === selectedId),
+      )
+    : 0;
+
+  const [selectedIndex, setSelectedIndex] = useState(initialIndex);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const touchStartX = useRef<number | null>(null);
 
-  const regions = siteConfig.regions;
+  useEffect(() => {
+    if (!selectedId) return;
+    const idx = regions.findIndex((r) => r.id === selectedId);
+    if (idx !== -1) {
+      setSelectedIndex(idx);
+    }
+  }, [selectedId, regions]);
+
   const activeRegion = regions[selectedIndex];
 
   const selectRegion = (nextIndex: number) => {
     const wrapped = (nextIndex + regions.length) % regions.length;
     setSelectedIndex(wrapped);
+    onSelectRegion?.(regions[wrapped].id);
   };
 
   const handleTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
       const next = (index + 1) % regions.length;
-      setSelectedIndex(next);
+      selectRegion(next);
       tabRefs.current[next]?.focus();
     } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
       const prev = (index - 1 + regions.length) % regions.length;
-      setSelectedIndex(prev);
+      selectRegion(prev);
       tabRefs.current[prev]?.focus();
     } else if (e.key === 'Home') {
       e.preventDefault();
-      setSelectedIndex(0);
+      selectRegion(0);
       tabRefs.current[0]?.focus();
     } else if (e.key === 'End') {
       e.preventDefault();
       const last = regions.length - 1;
-      setSelectedIndex(last);
+      selectRegion(last);
       tabRefs.current[last]?.focus();
     }
   };
@@ -58,13 +78,7 @@ export function Regions() {
   };
 
   return (
-    <Section
-      id="regions"
-      kicker="World Map"
-      title="The Five Regions"
-      subtitle="Five distinct landscapes connected across the island, each guarding an ancient fragment and its own environmental mysteries."
-      className="bg-[#0d1524]"
-    >
+    <div>
       {/* Region Selector Tabs */}
       <div
         role="tablist"
@@ -85,18 +99,21 @@ export function Regions() {
               aria-selected={isSelected}
               aria-controls={`region-panel-${region.id}`}
               tabIndex={isSelected ? 0 : -1}
-              onClick={() => setSelectedIndex(idx)}
+              onClick={() => selectRegion(idx)}
               onKeyDown={(e) => handleTabKeyDown(e, idx)}
               style={{
                 borderColor: isSelected ? region.theme.accentHex : undefined,
               }}
-              className={`min-h-[56px] px-3.5 py-2.5 rounded-xl text-left transition-all border ${
+              className={`min-h-[56px] px-3.5 py-2.5 rounded-xl text-left transition-colors border ${
                 isSelected
-                  ? 'bg-[#162238] text-[#faf5ea] shadow-[0_10px_24px_-12px_rgba(0,0,0,0.75)]'
-                  : 'bg-[#101829]/75 border-amber-200/15 text-[#c7bfae] hover:bg-[#152035] hover:text-white'
+                  ? 'bg-[#171717] text-white'
+                  : 'bg-[#0d0d0d] border-[#262626] text-[#cccccc] hover:bg-[#141414] hover:text-white'
               }`}
             >
-              <span className="block text-[11px] font-medium tracking-wider uppercase text-[#a9a192] tabular-nums">
+              <span
+                style={{color: isSelected ? region.theme.accentHex : undefined}}
+                className="block text-[11px] font-semibold tracking-wider uppercase text-[#a3a3a3] tabular-nums"
+              >
                 Level {region.levelNumber}
                 {region.isFinal ? ' · Final Level' : ''}
               </span>
@@ -116,45 +133,45 @@ export function Regions() {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         style={{
-          borderColor: `${activeRegion.theme.accentHex}55`,
+          borderColor: activeRegion.theme.accentHex,
         }}
-        className={`rounded-2xl border bg-gradient-to-br ${activeRegion.theme.cardGradient} p-5 sm:p-7 lg:p-8 transition-colors duration-300`}
+        className={`rounded-2xl border ${activeRegion.theme.cardSurface} p-5 sm:p-7 lg:p-8`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-center">
           <div className="lg:col-span-5 space-y-4">
-            <div className="flex flex-wrap items-center gap-2 text-xs font-medium tracking-wider uppercase">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wider uppercase">
               <span style={{color: activeRegion.theme.accentHex}} className="tabular-nums">
                 Level {activeRegion.levelNumber} of {regions.length}
               </span>
-              <span aria-hidden="true" className="text-amber-200/35">
+              <span aria-hidden="true" className="text-[#525252]">
                 ·
               </span>
-              <span className="text-[#c8c0af]">{activeRegion.subtitle}</span>
+              <span className="text-[#d4d4d4]">{activeRegion.subtitle}</span>
               {activeRegion.isFinal && (
                 <>
-                  <span aria-hidden="true" className="text-amber-200/35">
+                  <span aria-hidden="true" className="text-[#525252]">
                     ·
                   </span>
-                  <span style={{color: activeRegion.theme.secondaryHex}} className="font-semibold">
+                  <span style={{color: activeRegion.theme.secondaryHex}} className="font-bold">
                     Final Level
                   </span>
                 </>
               )}
             </div>
 
-            <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#faf5ea]">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">
               {activeRegion.name}
-            </h3>
+            </h2>
 
-            <p className="text-sm sm:text-base text-[#d9d2c3] leading-relaxed">
+            <p className="text-sm sm:text-base text-[#dcdcdc] leading-relaxed">
               {activeRegion.description}
             </p>
 
             <div className="pt-2">
-              <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-[#b4ac9b] mb-2.5">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a3a3a3] mb-2.5">
                 Key Mechanics &amp; Atmosphere
-              </h4>
-              <ul className="space-y-2 text-sm text-[#eae3d3]">
+              </h3>
+              <ul className="space-y-2 text-sm text-white">
                 {activeRegion.mechanics.map((mech) => (
                   <li key={mech} className="flex items-start gap-2.5">
                     <span
@@ -168,13 +185,12 @@ export function Regions() {
               </ul>
             </div>
 
-            {/* Previous / Next Region controls for mobile & quick browsing */}
             <div className="pt-3 flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => selectRegion(selectedIndex - 1)}
                 aria-label="Previous region"
-                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-lg border border-amber-200/20 bg-[#0b101b]/55 text-xs font-medium text-[#e7dfc9] hover:border-amber-200/45 hover:text-white transition-colors"
+                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-black text-xs font-medium text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
               >
                 Previous
               </button>
@@ -182,7 +198,7 @@ export function Regions() {
                 type="button"
                 onClick={() => selectRegion(selectedIndex + 1)}
                 aria-label="Next region"
-                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-lg border border-amber-200/20 bg-[#0b101b]/55 text-xs font-medium text-[#e7dfc9] hover:border-amber-200/45 hover:text-white transition-colors"
+                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-lg border border-[#22c55e] bg-[#22c55e] text-xs font-bold text-black hover:bg-[#4ade80] transition-colors"
               >
                 Next Region
               </button>
@@ -201,6 +217,6 @@ export function Regions() {
           </div>
         </div>
       </div>
-    </Section>
+    </div>
   );
 }

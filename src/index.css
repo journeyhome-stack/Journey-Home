@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Cinzel", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-sans: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 :root {
   color-scheme: dark;
-  --bg-twilight: #0b101b;
-  --bg-stone: #121a2a;
-  --bg-stone-elevated: #172135;
-  --border-bronze: rgba(214, 169, 94, 0.24);
-  --border-teal: rgba(45, 212, 191, 0.25);
-  --text-parchment: #efe8d8;
-  --text-muted: #b7b0a0;
+  --bg-twilight: #000000;
+  --bg-stone: #0f0f0f;
+  --bg-stone-elevated: #171717;
+  --border-bronze: #854d0e;
+  --border-teal: #166534;
+  --text-parchment: #ffffff;
+  --text-muted: #d4d4d4;
 }
 
 html {
-  background-color: var(--bg-twilight);
-  color: var(--text-parchment);
+  background-color: #000000;
+  color: #ffffff;
   font-family: var(--font-sans);
   overflow-x: clip;
 }
 
 body {
-  background-color: var(--bg-twilight);
-  color: var(--text-parchment);
+  background-color: #000000;
+  color: #ffffff;
   font-family: var(--font-sans);
   overflow-x: clip;
   line-height: 1.6;
@@ -41,22 +41,19 @@ h3,
 
 /* Visible keyboard focus ring across all interactive elements */
 :focus-visible {
-  outline: 2px solid #2dd4bf;
+  outline: 2px solid #22c55e;
   outline-offset: 3px;
 }
 
-/* Carved stone & bronze surface treatments */
+/* Solid obsidian card surfaces with crisp solid borders */
 .stone-panel {
-  background: linear-gradient(165deg, rgba(25, 35, 56, 0.88) 0%, rgba(14, 20, 34, 0.94) 100%);
-  border: 1px solid rgba(214, 169, 94, 0.22);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 236, 195, 0.08),
-    0 14px 34px -16px rgba(0, 0, 0, 0.7);
+  background-color: #111111;
+  border: 1px solid #2e2e2e;
 }
 
 .stone-panel-subtle {
-  background: rgba(18, 26, 42, 0.72);
-  border: 1px solid rgba(214, 169, 94, 0.16);
+  background-color: #0d0d0d;
+  border: 1px solid #262626;
 }
 
 /* Subtle section reveal animation */

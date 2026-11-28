@@ -20,7 +20,7 @@ export function News() {
       kicker="Journal"
       title="Latest News"
       subtitle="Development logs, patch notes, and milestones from the island."
-      className="bg-[#0b101b]"
+      className="bg-[#0a0a0a]"
     >
       <div className="space-y-4">
         {visibleNews.map((entry) => {
@@ -29,27 +29,27 @@ export function News() {
 
           return (
             <article key={entry.id} className="stone-panel rounded-2xl p-6 sm:p-7">
-              <div className="flex flex-wrap items-center gap-2 text-xs text-[#aba393] mb-2">
+              <div className="flex flex-wrap items-center gap-2 text-xs text-[#a3a3a3] mb-2">
                 <span>{entry.date}</span>
                 {entry.tag && (
                   <>
                     <span aria-hidden="true">·</span>
-                    <span className="text-amber-300 font-medium">{entry.tag}</span>
+                    <span className="text-[#facc15] font-semibold">{entry.tag}</span>
                   </>
                 )}
                 {entry.isExample && (
                   <>
                     <span aria-hidden="true">·</span>
-                    <span className="text-teal-300/90">Example entry (editable in siteConfig.ts)</span>
+                    <span className="text-[#22c55e] font-medium">Example entry (editable in siteConfig.ts)</span>
                   </>
                 )}
               </div>
 
-              <h3 className="font-display text-xl sm:text-2xl font-semibold text-[#faf5ea]">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-white">
                 {entry.title}
               </h3>
 
-              <p className="mt-3 text-sm sm:text-base text-[#d2cab9] leading-relaxed max-w-3xl">
+              <p className="mt-3 text-sm sm:text-base text-[#d4d4d4] leading-relaxed max-w-3xl">
                 {entry.summary}
               </p>
 
@@ -60,7 +60,7 @@ export function News() {
                     onClick={() => toggleDetails(entry.id)}
                     aria-expanded={isExpanded}
                     aria-controls={`news-details-${entry.id}`}
-                    className="inline-flex items-center gap-2 min-h-[40px] px-3.5 rounded-lg border border-amber-200/20 bg-[#121b2e] text-xs font-medium text-[#efe8d8] hover:border-amber-300/45 transition-colors"
+                    className="inline-flex items-center gap-2 min-h-[40px] px-3.5 rounded-lg border border-[#3a3a3a] bg-black text-xs font-semibold text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
                   >
                     <span>{isExpanded ? 'Hide notes' : 'Read details'}</span>
                     <svg
@@ -80,7 +80,7 @@ export function News() {
                   {isExpanded && entry.details && (
                     <ul
                       id={`news-details-${entry.id}`}
-                      className="mt-4 pt-4 border-t border-amber-200/15 space-y-2 text-sm text-[#c7bfae] list-disc pl-5"
+                      className="mt-4 pt-4 border-t border-[#262626] space-y-2 text-sm text-[#cccccc] list-disc pl-5"
                     >
                       {entry.details.map((line, idx) => (
                         <li key={idx}>{line}</li>
