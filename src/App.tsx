@@ -1,28 +1,16 @@
-import {lazy, Suspense, useCallback, useEffect, useState} from 'react';
+import {Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode} from 'react';
+import {Community} from './components/Community';
+import {Download} from './components/Download';
+import {Faq} from './components/Faq';
+import {Footer} from './components/Footer';
+import {Gallery} from './components/Gallery';
 import {Hero} from './components/Hero';
 import {Navbar} from './components/Navbar';
+import {News} from './components/News';
 import {SectionDivider} from './components/SectionDivider';
 
 const ExploreGamePage = lazy(() =>
   import('./pages/ExploreGamePage').then((m) => ({default: m.ExploreGamePage})),
-);
-const Gallery = lazy(() =>
-  import('./components/Gallery').then((m) => ({default: m.Gallery})),
-);
-const Download = lazy(() =>
-  import('./components/Download').then((m) => ({default: m.Download})),
-);
-const News = lazy(() =>
-  import('./components/News').then((m) => ({default: m.News})),
-);
-const Community = lazy(() =>
-  import('./components/Community').then((m) => ({default: m.Community})),
-);
-const Faq = lazy(() =>
-  import('./components/Faq').then((m) => ({default: m.Faq})),
-);
-const Footer = lazy(() =>
-  import('./components/Footer').then((m) => ({default: m.Footer})),
 );
 
 interface ParsedRoute {
@@ -55,6 +43,51 @@ function parseHashRoute(hash: string): ParsedRoute {
     return {page: 'explore', section: 'regions', regionId: regionId || undefined};
   }
   return {page: 'home'};
+}
+
+interface RouteErrorBoundaryProps {
+  children: ReactNode;
+  onReset: () => void;
+}
+
+interface RouteErrorBoundaryState {
+  hasError: boolean;
+}
+
+class RouteErrorBoundary extends Component<RouteErrorBoundaryProps, RouteErrorBoundaryState> {
+  state: RouteErrorBoundaryState = {hasError: false};
+
+  static getDerivedStateFromError(): RouteErrorBoundaryState {
+    return {hasError: true};
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="py-20 px-4 text-center max-w-lg mx-auto space-y-4">
+          <h2 className="font-display text-2xl font-semibold text-white">
+            Could not load this view
+          </h2>
+          <p className="text-sm text-[#cccccc]">
+            Please try reloading the page or returning to the main view.
+          </p>
+          <div className="flex justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                this.setState({hasError: false});
+                this.props.onReset();
+              }}
+              className="min-h-[44px] px-5 rounded-lg bg-[#facc15] text-black font-bold text-sm hover:bg-[#fde047] transition-colors"
+            >
+              Back to Home
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 function SectionFallback({id, label}: {id?: string; label: string}) {
@@ -173,59 +206,44 @@ export default function App() {
       />
 
       <main id="main-content" className="flex-1">
-        {route.page === 'explore' ? (
-          <Suspense fallback={<SectionFallback label="Explore Game" />}>
-            <ExploreGamePage
-              selectedRegionId={route.regionId}
-              targetSection={route.section}
-              onSelectRegion={(regionId) => {
-                const targetHash = `#/explore/regions/${regionId}`;
-                if (window.location.hash !== targetHash) {
-                  window.history.replaceState(null, '', targetHash);
-                }
-                setRoute({page: 'explore', section: 'regions', regionId});
-              }}
-              onBackHome={navigateToHomeSection}
-            />
-          </Suspense>
-        ) : (
-          <>
-            <Hero onOpenExplore={() => navigateToExplore()} />
-            <SectionDivider kind="ruins" />
-
-            <Suspense fallback={<SectionFallback id="screenshots" label="Screenshots & Trailer" />}>
+        <RouteErrorBoundary onReset={() => navigateToHomeSection()}>
+          {route.page === 'explore' ? (
+            <Suspense fallback={<SectionFallback label="Explore Game" />}>
+              <ExploreGamePage
+                selectedRegionId={route.regionId}
+                targetSection={route.section}
+                onSelectRegion={(regionId) => {
+                  const targetHash = `#/explore/regions/${regionId}`;
+                  if (window.location.hash !== targetHash) {
+                    window.history.replaceState(null, '', targetHash);
+                  }
+                  setRoute({page: 'explore', section: 'regions', regionId});
+                }}
+                onBackHome={navigateToHomeSection}
+              />
+            </Suspense>
+          ) : (
+            <>
+              <Hero onOpenExplore={() => navigateToExplore()} />
+              <SectionDivider kind="ruins" />
               <Gallery />
-            </Suspense>
-            <SectionDivider kind="waves" />
-
-            <Suspense fallback={<SectionFallback id="download" label="Download options" />}>
+              <SectionDivider kind="waves" />
               <Download />
-            </Suspense>
-            <SectionDivider kind="canopy" />
-
-            <Suspense fallback={<SectionFallback id="news" label="News" />}>
+              <SectionDivider kind="canopy" />
               <News />
-            </Suspense>
-            <SectionDivider kind="peaks" />
-
-            <Suspense fallback={<SectionFallback id="community" label="Community" />}>
+              <SectionDivider kind="peaks" />
               <Community />
-            </Suspense>
-            <SectionDivider kind="canopy" />
-
-            <Suspense fallback={<SectionFallback id="faq" label="FAQ" />}>
+              <SectionDivider kind="canopy" />
               <Faq />
-            </Suspense>
-          </>
-        )}
+            </>
+          )}
+        </RouteErrorBoundary>
       </main>
 
-      <Suspense fallback={<div className="py-10 bg-black" />}>
-        <Footer
-          onNavigateHomeSection={navigateToHomeSection}
-          onNavigateExplore={() => navigateToExplore()}
-        />
-      </Suspense>
+      <Footer
+        onNavigateHomeSection={navigateToHomeSection}
+        onNavigateExplore={() => navigateToExplore()}
+      />
     </div>
   );
 }
