@@ -101,7 +101,7 @@ export function Lightbox({items, activeIndex, onClose, onChangeIndex}: LightboxP
             type="button"
             onClick={onClose}
             aria-label="Close screenshot viewer"
-            className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 rounded-lg border border-[#3a3a3a] bg-black text-white hover:border-[#facc15] transition-colors"
+            className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] px-3 rounded-lg border border-[#166534] bg-black text-white hover:border-[#22c55e] transition-colors"
           >
             Close
           </button>
@@ -124,7 +124,7 @@ export function Lightbox({items, activeIndex, onClose, onChangeIndex}: LightboxP
                 type="button"
                 onClick={() => onChangeIndex((activeIndex - 1 + items.length) % items.length)}
                 aria-label="Previous screenshot"
-                className="min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-black text-xs font-medium text-white hover:border-[#facc15] transition-colors"
+                className="min-h-[44px] px-4 rounded-lg border border-[#166534] bg-black text-xs font-medium text-white hover:border-[#22c55e] transition-colors"
               >
                 Previous
               </button>

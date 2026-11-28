@@ -69,7 +69,7 @@ export function Trailer() {
             )}
             <div className="absolute inset-0 bg-black/55" />
             <div className="relative z-10 flex flex-col items-center gap-3">
-              <span className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#facc15] text-black group-hover:bg-[#fde047] transition-colors">
+              <span className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#22c55e] text-black group-hover:bg-[#4ade80] transition-colors">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 translate-x-0.5" aria-hidden="true">
                   <path d="M8 5.5v13l11-6.5-11-6.5Z" />
                 </svg>

@@ -37,7 +37,7 @@ export function Gallery() {
       kicker="Media"
       title="Screenshots &amp; Trailer"
       subtitle="Preview footage and reserved 16:9 gallery frames ready for in-game captures."
-      className="bg-[#0a0a0a]"
+      className="bg-transparent"
     >
       <Trailer />
 
@@ -53,7 +53,7 @@ export function Gallery() {
                   type="button"
                   onClick={() => openRealShot(shot.id)}
                   aria-label={`Open screenshot: ${shot.caption}`}
-                  className="w-full text-left rounded-xl overflow-hidden border border-[#2e2e2e] hover:border-[#facc15] transition-colors focus-visible:outline-offset-2"
+                  className="w-full text-left rounded-xl overflow-hidden border border-[#166534] hover:border-[#22c55e] transition-colors focus-visible:outline-offset-2"
                 >
                   <div className="relative overflow-hidden">
                     <PlaceholderImage

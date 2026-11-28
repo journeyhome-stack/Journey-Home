@@ -20,7 +20,7 @@ export function News() {
       kicker="Journal"
       title="Latest News"
       subtitle="Development logs, patch notes, and milestones from the island."
-      className="bg-[#0a0a0a]"
+      className="bg-transparent"
     >
       <div className="space-y-4">
         {visibleNews.map((entry) => {
@@ -34,7 +34,7 @@ export function News() {
                 {entry.tag && (
                   <>
                     <span aria-hidden="true">·</span>
-                    <span className="text-[#facc15] font-semibold">{entry.tag}</span>
+                    <span className="text-[#4ade80] font-semibold">{entry.tag}</span>
                   </>
                 )}
                 {entry.isExample && (
@@ -60,7 +60,7 @@ export function News() {
                     onClick={() => toggleDetails(entry.id)}
                     aria-expanded={isExpanded}
                     aria-controls={`news-details-${entry.id}`}
-                    className="inline-flex items-center gap-2 min-h-[40px] px-3.5 rounded-lg border border-[#3a3a3a] bg-black text-xs font-semibold text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
+                    className="inline-flex items-center gap-2 min-h-[40px] px-3.5 rounded-lg border border-[#166534] bg-black text-xs font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
                   >
                     <span>{isExpanded ? 'Hide notes' : 'Read details'}</span>
                     <svg

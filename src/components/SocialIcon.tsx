@@ -120,7 +120,7 @@ export function SocialIcon({social, variant = 'compact'}: SocialIconProps) {
           aria-label={`${social.label} (opens in a new window)`}
           className="group flex items-center gap-3.5 min-h-[52px] px-4 py-3 rounded-xl bg-[#111111] border border-[#2e2e2e] hover:border-[#22c55e] transition-colors active:translate-y-px"
         >
-          <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#facc15] text-black group-hover:bg-[#22c55e] transition-colors shrink-0">
+          <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#22c55e] text-black group-hover:bg-[#4ade80] transition-colors shrink-0">
             <PlatformGlyph id={social.id} className="w-5 h-5" />
           </span>
           <span className="min-w-0 flex-1">

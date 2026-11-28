@@ -56,7 +56,7 @@ export function Download() {
       kicker="Ways to Play"
       title="Play Journey Home"
       subtitle="Launch directly in your browser when live, or choose a platform build as downloadable releases are added."
-      className="bg-black"
+      className="bg-transparent"
     >
       {/* Featured Play in Browser Card */}
       <div className="stone-panel rounded-2xl p-6 sm:p-8 mb-8 border-[#22c55e]">
@@ -100,7 +100,7 @@ export function Download() {
               className="stone-panel-subtle rounded-xl p-5 flex flex-col justify-between gap-4"
             >
               <div>
-                <div className="flex items-center justify-between gap-2 text-[#facc15] mb-3">
+                <div className="flex items-center justify-between gap-2 text-[#4ade80] mb-3">
                   <PlatformIcon id={item.id} />
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-[#22c55e]">
                     {isReady ? 'Available' : 'Coming soon'}
@@ -169,7 +169,7 @@ export function Download() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-[0.16em] text-[#facc15] mb-3">
+            <h4 className="text-xs font-bold uppercase tracking-[0.16em] text-[#4ade80] mb-3">
               Minimum
             </h4>
             <dl className="divide-y divide-[#262626] text-sm">

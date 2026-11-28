@@ -33,12 +33,12 @@ export function Button({
         : 'min-h-[44px] px-5 py-2.5 text-sm';
 
   const variantClasses = disabled
-    ? 'bg-[#1a1a1a] text-[#8a8a8a] border border-[#2e2e2e] cursor-not-allowed'
+    ? 'bg-[#0f1410] text-[#7a8a7e] border border-[#1a2e1f] cursor-not-allowed'
     : variant === 'primary'
-      ? 'bg-[#facc15] text-black font-bold border border-[#facc15] hover:bg-[#fde047] hover:border-[#fde047] active:translate-y-px'
+      ? 'bg-[#22c55e] text-black font-bold border border-[#22c55e] hover:bg-[#4ade80] hover:border-[#4ade80] active:translate-y-px'
       : variant === 'secondary'
-        ? 'bg-[#22c55e] text-black font-bold border border-[#22c55e] hover:bg-[#4ade80] hover:border-[#4ade80] active:translate-y-px'
-        : 'bg-[#121212] text-white font-medium border border-[#3a3a3a] hover:border-[#facc15] hover:text-[#facc15] active:translate-y-px';
+        ? 'bg-[#14532d] text-white font-bold border border-[#22c55e] hover:bg-[#166534] hover:border-[#4ade80] active:translate-y-px'
+        : 'bg-[#0b100c] text-[#4ade80] font-medium border border-[#166534] hover:border-[#22c55e] hover:bg-[#0f1f14] hover:text-white active:translate-y-px';
 
   const baseClasses = `inline-flex items-center justify-center gap-2 rounded-lg whitespace-nowrap shrink-0 transition-colors duration-150 ${sizeClasses} ${variantClasses} ${className}`;
 

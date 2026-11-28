@@ -102,7 +102,7 @@ export function Hero({onOpenExplore}: HeroProps) {
 
         ctx.beginPath();
         ctx.arc(px, py, p.radius * (0.8 + 0.25 * pulse), 0, Math.PI * 2);
-        ctx.fillStyle = p.warm ? '#facc15' : '#22c55e';
+        ctx.fillStyle = p.warm ? '#4ade80' : '#22c55e';
         ctx.fill();
       }
 
@@ -132,9 +132,9 @@ export function Hero({onOpenExplore}: HeroProps) {
       id="hero"
       ref={heroRef}
       aria-label="Journey Home Introduction"
-      className="relative min-h-[calc(100svh-4rem)] flex flex-col justify-between overflow-hidden bg-black"
+      className="relative min-h-[calc(100svh-4rem)] flex flex-col justify-between overflow-hidden bg-transparent"
     >
-      {/* Background artwork slot (1920x1080) or solid black/green/yellow island fallback */}
+      {/* Background artwork slot (1920x1080) or transparent sky + island silhouette over background dragon */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {hasHeroImage ? (
           <>
@@ -150,8 +150,6 @@ export function Hero({onOpenExplore}: HeroProps) {
           </>
         ) : (
           <>
-            <div className="absolute inset-0 bg-black" />
-
             {/* Soft drifting cloud band */}
             <svg
               viewBox="0 0 1440 420"
@@ -170,7 +168,7 @@ export function Hero({onOpenExplore}: HeroProps) {
               className="absolute bottom-0 inset-x-0 w-full h-[46%] sm:h-[54%] object-cover"
               preserveAspectRatio="xMidYMax slice"
             >
-              <circle cx="1140" cy="86" r="36" fill="#facc15" />
+              <circle cx="1140" cy="86" r="36" fill="#22c55e" />
               <path
                 d="M0 320 L160 220 L290 275 L470 155 L630 250 L790 130 L960 235 L1140 165 L1310 245 L1440 190 L1440 420 L0 420 Z"
                 fill="#0f2918"
@@ -183,8 +181,8 @@ export function Hero({onOpenExplore}: HeroProps) {
                 d="M620 315 L638 210 L664 210 L674 315 Z M694 315 L704 185 L736 185 L746 315 Z M766 315 L776 210 L802 210 L820 315 Z M654 205 L786 205 L776 182 L664 182 Z"
                 fill="#000000"
               />
-              <circle cx="720" cy="162" r="14" fill="#22c55e" />
-              <path d="M720 146 L727 162 L720 176 L713 162 Z" fill="#facc15" />
+              <circle cx="720" cy="162" r="14" fill="#16a34a" />
+              <path d="M720 146 L727 162 L720 176 L713 162 Z" fill="#4ade80" />
               <rect x="0" y="378" width="1440" height="42" fill="#000000" />
             </svg>
           </>
@@ -193,13 +191,7 @@ export function Hero({onOpenExplore}: HeroProps) {
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       </div>
 
-      {!hasHeroImage && (
-        <div className="relative z-10 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex justify-end">
-          <span className="text-[11px] font-mono tabular-nums text-[#d4d4d4] bg-[#111111] border border-[#2e2e2e] px-3 py-1.5 rounded-md">
-            Hero Artwork Slot · 1920x1080 (16:9)
-          </span>
-        </div>
-      )}
+
 
       <div className="relative z-10 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 my-auto">
         <div className="max-w-3xl">
@@ -211,7 +203,7 @@ export function Hero({onOpenExplore}: HeroProps) {
             {siteConfig.game.name}
           </h1>
 
-          <p className="mt-4 font-display text-lg sm:text-2xl text-[#facc15] tracking-wide">
+          <p className="mt-4 font-display text-lg sm:text-2xl text-[#4ade80] tracking-wide">
             {siteConfig.game.tagline}
           </p>
 
@@ -244,7 +236,6 @@ export function Hero({onOpenExplore}: HeroProps) {
               onClick={onOpenExplore}
               variant="ghost"
               size="lg"
-              className="border-[#22c55e] text-[#facc15] hover:bg-[#141414]"
             >
               Explore Game
             </Button>
@@ -253,9 +244,9 @@ export function Hero({onOpenExplore}: HeroProps) {
           <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
             <a
               href="#trailer"
-              className="inline-flex items-center gap-2 min-h-[40px] text-white hover:text-[#facc15] underline decoration-[#facc15] underline-offset-4 transition-colors"
+              className="inline-flex items-center gap-2 min-h-[40px] text-white hover:text-[#4ade80] underline decoration-[#22c55e] underline-offset-4 transition-colors"
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#facc15]" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#22c55e]" aria-hidden="true">
                 <path d="M8 5.5v13l11-6.5-11-6.5Z" />
               </svg>
               Watch Trailer
@@ -308,7 +299,7 @@ export function Hero({onOpenExplore}: HeroProps) {
         <a
           href="#screenshots"
           aria-label="Scroll down to Screenshots and Trailer"
-          className="inline-flex flex-col items-center gap-1.5 min-h-[44px] px-4 text-xs tracking-[0.14em] uppercase text-[#d4d4d4] hover:text-[#facc15] transition-colors"
+          className="inline-flex flex-col items-center gap-1.5 min-h-[44px] px-4 text-xs tracking-[0.14em] uppercase text-[#d4d4d4] hover:text-[#4ade80] transition-colors"
         >
           <span>Screenshots &amp; Download</span>
           <svg

@@ -15,7 +15,7 @@ export function Faq() {
       kicker="Questions"
       title="Frequently Asked Questions"
       subtitle="Everything confirmed so far about platforms, controls, and saving."
-      className="bg-[#0a0a0a]"
+      className="bg-transparent"
     >
       <div className="max-w-3xl space-y-3">
         {siteConfig.faq.map((item) => {
@@ -41,7 +41,7 @@ export function Faq() {
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
-                    className={`w-5 h-5 text-[#facc15] shrink-0 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-[#22c55e] shrink-0 transition-transform duration-200 ${
                       isOpen ? 'rotate-180' : ''
                     }`}
                   >

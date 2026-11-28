@@ -8,10 +8,10 @@
 :root {
   color-scheme: dark;
   --bg-twilight: #000000;
-  --bg-stone: #0f0f0f;
-  --bg-stone-elevated: #171717;
-  --border-bronze: #854d0e;
-  --border-teal: #166534;
+  --bg-stone: #0b0f0c;
+  --bg-stone-elevated: #111914;
+  --border-green: #166534;
+  --border-teal: #14532d;
   --text-parchment: #ffffff;
   --text-muted: #d4d4d4;
 }
@@ -45,15 +45,15 @@ h3,
   outline-offset: 3px;
 }
 
-/* Solid obsidian card surfaces with crisp solid borders */
+/* Deep obsidian card surfaces with crisp dark-green borders (predominantly black) */
 .stone-panel {
-  background-color: #111111;
-  border: 1px solid #2e2e2e;
+  background-color: #050806;
+  border: 1px solid #14532d;
 }
 
 .stone-panel-subtle {
-  background-color: #0d0d0d;
-  border: 1px solid #262626;
+  background-color: #030504;
+  border: 1px solid #0f381f;
 }
 
 /* Subtle section reveal animation */

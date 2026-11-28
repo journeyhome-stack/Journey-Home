@@ -42,11 +42,11 @@ export function ExploreGamePage({
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-transparent text-white">
       {/* Page Hero / Header */}
       <section
         aria-label="Explore Game Overview"
-        className="bg-black py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-[#262626]"
+        className="bg-transparent py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-[#262626]"
       >
         <div className="max-w-6xl mx-auto">
           <div className="mb-6">
@@ -56,7 +56,7 @@ export function ExploreGamePage({
                 e.preventDefault();
                 onBackHome();
               }}
-              className="inline-flex items-center gap-2 min-h-[40px] text-sm font-semibold text-[#22c55e] hover:text-[#facc15] transition-colors"
+              className="inline-flex items-center gap-2 min-h-[40px] text-sm font-semibold text-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
               <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" aria-hidden="true">
                 <path
@@ -84,28 +84,28 @@ export function ExploreGamePage({
             <button
               type="button"
               onClick={() => scrollToInPageSection('about')}
-              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-[#111111] text-sm font-semibold text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
+              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#166534] bg-[#0b100c] text-sm font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
               The Story
             </button>
             <button
               type="button"
               onClick={() => scrollToInPageSection('features')}
-              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-[#111111] text-sm font-semibold text-white hover:border-[#22c55e] hover:text-[#22c55e] transition-colors"
+              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#166534] bg-[#0b100c] text-sm font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
               Gameplay &amp; Features
             </button>
             <button
               type="button"
               onClick={() => scrollToInPageSection('regions')}
-              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-[#111111] text-sm font-semibold text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
+              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#166534] bg-[#0b100c] text-sm font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
               The Five Regions
             </button>
             <button
               type="button"
               onClick={() => scrollToInPageSection('island-atlas')}
-              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-[#111111] text-sm font-semibold text-white hover:border-[#22c55e] hover:text-[#22c55e] transition-colors"
+              className="inline-flex items-center min-h-[44px] px-4 rounded-lg border border-[#166534] bg-[#0b100c] text-sm font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
               Island Atlas
             </button>
@@ -131,7 +131,7 @@ export function ExploreGamePage({
         kicker="World Map"
         title="The Five Regions"
         subtitle="Five distinct island regions connected by the world map. Recover all five ancient fragments to unlock the way home."
-        className="bg-[#0a0a0a]"
+        className="bg-transparent"
       >
         <Regions selectedId={selectedRegionId} onSelectRegion={onSelectRegion} />
       </Section>
@@ -142,7 +142,7 @@ export function ExploreGamePage({
       <section
         id="island-atlas"
         aria-label="All five regions overview"
-        className="scroll-mt-20 py-14 sm:py-18 px-4 sm:px-6 lg:px-8 bg-black"
+        className="scroll-mt-20 py-14 sm:py-18 px-4 sm:px-6 lg:px-8 bg-transparent"
       >
         <div className="max-w-6xl mx-auto">
           <header className="max-w-3xl mb-10">
@@ -189,7 +189,7 @@ export function ExploreGamePage({
                           <span aria-hidden="true" className="text-[#525252]">
                             ·
                           </span>
-                          <span className="text-[#facc15] font-bold">Final Level</span>
+                          <span className="text-[#4ade80] font-bold">Final Level</span>
                         </>
                       )}
                     </div>
@@ -210,7 +210,7 @@ export function ExploreGamePage({
                         onSelectRegion(region.id);
                         scrollToInPageSection('regions');
                       }}
-                      className="inline-flex items-center justify-center min-h-[44px] w-full px-4 rounded-lg border border-[#3a3a3a] bg-black text-xs font-semibold text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
+                      className="inline-flex items-center justify-center min-h-[44px] w-full px-4 rounded-lg border border-[#166534] bg-black text-xs font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
                     >
                       Inspect {region.name}
                     </button>

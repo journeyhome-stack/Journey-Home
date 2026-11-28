@@ -73,7 +73,7 @@ export function Features() {
       kicker="Exploration & Freedom"
       title="Your Journey, Unhurried"
       subtitle="Built around quiet discovery, tactile puzzles, and the freedom to explore every corner of the island."
-      className="bg-black"
+      className="bg-transparent"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {siteConfig.features.map((feature, idx) => {
@@ -81,13 +81,13 @@ export function Features() {
           return (
             <article
               key={feature.id}
-              className="stone-panel rounded-xl p-5 sm:p-6 flex flex-col gap-3.5 hover:border-[#facc15] transition-colors"
+              className="stone-panel rounded-xl p-5 sm:p-6 flex flex-col gap-3.5 hover:border-[#22c55e] transition-colors"
             >
               <div
                 className={`inline-flex items-center justify-center w-11 h-11 rounded-lg ${
                   isGreen
-                    ? 'bg-[#22c55e] text-black'
-                    : 'bg-[#facc15] text-black'
+                    ? 'bg-[#16a34a] text-black'
+                    : 'bg-[#22c55e] text-black'
                 }`}
               >
                 <FeatureIcon name={feature.icon} />

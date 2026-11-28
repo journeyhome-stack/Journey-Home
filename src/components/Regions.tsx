@@ -190,7 +190,7 @@ export function Regions({selectedId, onSelectRegion}: RegionsProps) {
                 type="button"
                 onClick={() => selectRegion(selectedIndex - 1)}
                 aria-label="Previous region"
-                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-black text-xs font-medium text-white hover:border-[#facc15] hover:text-[#facc15] transition-colors"
+                className="inline-flex items-center justify-center min-h-[44px] px-4 rounded-lg border border-[#166534] bg-black text-xs font-medium text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
               >
                 Previous
               </button>

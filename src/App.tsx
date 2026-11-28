@@ -1,4 +1,5 @@
 import {Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode} from 'react';
+import {BackgroundDragon} from './components/BackgroundDragon';
 import {Community} from './components/Community';
 import {Download} from './components/Download';
 import {Faq} from './components/Faq';
@@ -78,7 +79,7 @@ class RouteErrorBoundary extends Component<RouteErrorBoundaryProps, RouteErrorBo
                 this.setState({hasError: false});
                 this.props.onReset();
               }}
-              className="min-h-[44px] px-5 rounded-lg bg-[#facc15] text-black font-bold text-sm hover:bg-[#fde047] transition-colors"
+              className="min-h-[44px] px-5 rounded-lg bg-[#22c55e] text-black font-bold text-sm hover:bg-[#4ade80] transition-colors"
             >
               Back to Home
             </button>
@@ -191,10 +192,12 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
+    <div className="relative min-h-screen flex flex-col bg-black text-white">
+      <BackgroundDragon />
+
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-lg focus:bg-[#facc15] focus:text-black focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-lg focus:bg-[#22c55e] focus:text-black focus:font-semibold"
       >
         Skip to content
       </a>
@@ -205,7 +208,7 @@ export default function App() {
         onNavigateExplore={() => navigateToExplore()}
       />
 
-      <main id="main-content" className="flex-1">
+      <main id="main-content" className="relative z-10 flex-1">
         <RouteErrorBoundary onReset={() => navigateToHomeSection()}>
           {route.page === 'explore' ? (
             <Suspense fallback={<SectionFallback label="Explore Game" />}>

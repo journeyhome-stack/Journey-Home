@@ -46,7 +46,7 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
   };
 
   return (
-    <footer className="border-t border-[#262626] bg-black pt-12 pb-10 px-4 sm:px-6 lg:px-8">
+    <footer className="relative z-10 border-t border-[#262626] bg-transparent pt-12 pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 pb-10 border-b border-[#262626]">
           <div className="max-w-sm space-y-3">
@@ -79,7 +79,7 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
                       onNavigateHomeSection(link.id);
                     }
                   }}
-                  className="text-sm text-[#d4d4d4] hover:text-[#facc15] py-1 transition-colors"
+                  className="text-sm text-[#d4d4d4] hover:text-[#4ade80] py-1 transition-colors"
                 >
                   {link.label}
                 </a>
@@ -97,10 +97,10 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
             <button
               type="button"
               onClick={scrollToTop}
-              className="inline-flex items-center gap-2 min-h-[44px] px-4 rounded-lg border border-[#3a3a3a] bg-[#111111] text-xs font-semibold text-white hover:border-[#22c55e] hover:text-[#22c55e] transition-colors"
+              className="inline-flex items-center gap-2 min-h-[44px] px-4 rounded-lg border border-[#166534] bg-[#0b100c] text-xs font-semibold text-white hover:border-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
               <span>Back to top</span>
-              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-[#facc15]" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-[#22c55e]" aria-hidden="true">
                 <path
                   fillRule="evenodd"
                   d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
@@ -119,7 +119,7 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
             <button
               type="button"
               onClick={() => setModalType('privacy')}
-              className="min-h-[40px] hover:text-[#facc15] underline underline-offset-4 decoration-[#525252] transition-colors"
+              className="min-h-[40px] hover:text-[#4ade80] underline underline-offset-4 decoration-[#166534] transition-colors"
             >
               Privacy
             </button>
@@ -155,7 +155,7 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
                 ref={closeRef}
                 type="button"
                 onClick={() => setModalType(null)}
-                className="min-h-[44px] px-3.5 rounded-lg border border-[#3a3a3a] bg-black text-xs font-semibold text-white hover:border-[#facc15] transition-colors"
+                className="min-h-[44px] px-3.5 rounded-lg border border-[#166534] bg-black text-xs font-semibold text-white hover:border-[#22c55e] transition-colors"
               >
                 Close
               </button>

@@ -124,15 +124,15 @@ export function Navbar({
                 aria-current={isActive ? 'page' : undefined}
                 className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors ${
                   isActive
-                    ? 'text-[#facc15]'
-                    : 'text-[#d4d4d4] hover:text-white'
+                    ? 'text-[#22c55e]'
+                    : 'text-[#d4d4d4] hover:text-[#4ade80]'
                 }`}
               >
                 {link.label}
                 {isActive && (
                   <span
                     aria-hidden="true"
-                    className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-[#facc15] rounded-full"
+                    className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-[#22c55e] rounded-full"
                   />
                 )}
               </a>
@@ -174,7 +174,7 @@ export function Navbar({
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav-drawer"
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className="inline-flex items-center justify-center w-11 h-11 rounded-lg border border-[#333333] bg-[#111111] text-white hover:border-[#facc15] transition-colors"
+            className="inline-flex items-center justify-center w-11 h-11 rounded-lg border border-[#166534] bg-[#0b100c] text-white hover:border-[#22c55e] transition-colors"
           >
             {mobileOpen ? (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5" aria-hidden="true">
@@ -208,8 +208,8 @@ export function Navbar({
                     aria-current={isActive ? 'page' : undefined}
                     className={`flex items-center min-h-[44px] px-3.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-[#facc15] text-black font-bold border border-[#facc15]'
-                        : 'text-[#e5e5e5] bg-[#141414] border border-[#262626] hover:border-[#22c55e]'
+                        ? 'bg-[#22c55e] text-black font-bold border border-[#22c55e]'
+                        : 'text-[#e5e5e5] bg-[#0d140f] border border-[#14532d] hover:border-[#22c55e]'
                     }`}
                   >
                     {link.label}

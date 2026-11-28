@@ -14,7 +14,7 @@ export function Community() {
       kicker="Community"
       title="Join the Journey"
       subtitle="Share screenshots from your travels, post fan art, swap puzzle hints, and help shape future updates with your feedback and bug reports."
-      className="bg-black"
+      className="bg-transparent"
     >
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {enabledSocials.map((social) => (

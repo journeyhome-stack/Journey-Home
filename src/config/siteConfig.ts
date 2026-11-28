@@ -361,7 +361,7 @@ export const siteConfig = {
       mechanics: ['Coastal traversal', 'Echoing sea caves', 'Introductory switches & ruins'],
       theme: {
         accentHex: '#22c55e',
-        secondaryHex: '#facc15',
+        secondaryHex: '#4ade80',
         cardSurface: 'bg-[#111111]',
         sceneVariant: 'shore',
       },
@@ -380,7 +380,7 @@ export const siteConfig = {
       mechanics: ['Suspended rope bridges', 'Waterfall paths', 'Forest light beacons'],
       theme: {
         accentHex: '#22c55e',
-        secondaryHex: '#facc15',
+        secondaryHex: '#4ade80',
         cardSurface: 'bg-[#111111]',
         sceneVariant: 'woods',
       },
@@ -398,7 +398,7 @@ export const siteConfig = {
         'Descend into half-submerged marble halls where golden light filters through deep water. Search for ancient keys to unlock sealed temple doors.',
       mechanics: ['Flooded chambers', 'Ancient keys & locked gates', 'Submerged stone walkways'],
       theme: {
-        accentHex: '#facc15',
+        accentHex: '#4ade80',
         secondaryHex: '#22c55e',
         cardSurface: 'bg-[#111111]',
         sceneVariant: 'sunken',
@@ -418,7 +418,7 @@ export const siteConfig = {
       mechanics: ['Slippery ice platforms', 'High-altitude jumps', 'Aurora-lit cliffs'],
       theme: {
         accentHex: '#22c55e',
-        secondaryHex: '#facc15',
+        secondaryHex: '#4ade80',
         cardSurface: 'bg-[#111111]',
         sceneVariant: 'peaks',
       },
@@ -437,7 +437,7 @@ export const siteConfig = {
         'Rise to the drifting sanctuaries suspended above the island. Unite the five ancient fragments, solve the final sanctuary puzzles, and uncover the truth behind your journey home.',
       mechanics: ['Floating islands', 'Five-fragment convergence', 'Final sanctuary mystery'],
       theme: {
-        accentHex: '#facc15',
+        accentHex: '#4ade80',
         secondaryHex: '#22c55e',
         cardSurface: 'bg-[#111111]',
         sceneVariant: 'sky',
