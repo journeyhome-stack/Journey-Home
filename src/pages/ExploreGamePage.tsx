@@ -7,19 +7,20 @@ import {Regions} from '../components/Regions';
 import {Section} from '../components/Section';
 import {SectionDivider} from '../components/SectionDivider';
 import {siteConfig} from '../config/siteConfig';
+import type {PageId} from './SectionPage';
 
 interface ExploreGamePageProps {
   selectedRegionId?: string;
   targetSection?: string;
   onSelectRegion: (regionId: string) => void;
-  onBackHome: (sectionId?: string) => void;
+  onNavigate: (page: PageId, options?: {anchor?: string}) => void;
 }
 
 export function ExploreGamePage({
   selectedRegionId,
   targetSection,
   onSelectRegion,
-  onBackHome,
+  onNavigate,
 }: ExploreGamePageProps) {
   useEffect(() => {
     if (!targetSection) return;
@@ -54,7 +55,7 @@ export function ExploreGamePage({
               href="#/"
               onClick={(e) => {
                 e.preventDefault();
-                onBackHome();
+                onNavigate('home');
               }}
               className="inline-flex items-center gap-2 min-h-[40px] text-sm font-semibold text-[#22c55e] hover:text-[#4ade80] transition-colors"
             >
@@ -230,10 +231,17 @@ export function ExploreGamePage({
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <Button variant="secondary" href="#/" onClick={() => onBackHome()}>
+              <Button variant="secondary" href="#/" onClick={() => onNavigate('home')}>
                 Back to Home
               </Button>
-              <Button variant="primary" href="#download" onClick={() => onBackHome('download')}>
+              <Button variant="ghost" href="#/screenshots" onClick={() => onNavigate('screenshots')}>
+                Screenshots &amp; Trailer
+              </Button>
+              <Button
+                variant="primary"
+                href="#download"
+                onClick={() => onNavigate('home', {anchor: 'download'})}
+              >
                 Ways to Play
               </Button>
             </div>

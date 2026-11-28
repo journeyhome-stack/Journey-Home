@@ -43,10 +43,10 @@ function getSegmentSpacing(index: number, scale: number): number {
 }
 
 function getSegmentColor(index: number): string {
-  if (index <= 8) return '#22c55e';
-  if (index <= 18) return '#16a34a';
-  if (index <= 26) return '#15803d';
-  return '#166534';
+  if (index <= 8) return '#7dd3fc';
+  if (index <= 18) return '#38bdf8';
+  if (index <= 26) return '#0ea5e9';
+  return '#0284c7';
 }
 
 function drawHead(ctx: CanvasRenderingContext2D, seg: Segment, scale: number) {
@@ -54,7 +54,7 @@ function drawHead(ctx: CanvasRenderingContext2D, seg: Segment, scale: number) {
   ctx.translate(seg.x, seg.y);
   ctx.rotate(seg.angle);
 
-  // Outer skull silhouette
+  // Outer skull silhouette with glowing light-blue edge
   ctx.beginPath();
   ctx.moveTo(21 * scale, 0);
   ctx.quadraticCurveTo(13 * scale, 8.5 * scale, -1 * scale, 12.5 * scale);
@@ -64,10 +64,19 @@ function drawHead(ctx: CanvasRenderingContext2D, seg: Segment, scale: number) {
   ctx.quadraticCurveTo(-11 * scale, -13.5 * scale, -1 * scale, -12.5 * scale);
   ctx.quadraticCurveTo(13 * scale, -8.5 * scale, 21 * scale, 0);
   ctx.closePath();
-  ctx.fillStyle = '#4ade80';
+
+  ctx.shadowColor = '#38bdf8';
+  ctx.shadowBlur = 16 * scale;
+  ctx.fillStyle = '#7dd3fc';
   ctx.fill();
 
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 1.6 * scale;
+  ctx.strokeStyle = '#e0f2fe';
+  ctx.stroke();
+
   // Inner skull plate
+  ctx.shadowBlur = 0;
   ctx.beginPath();
   ctx.moveTo(15 * scale, 0);
   ctx.quadraticCurveTo(7 * scale, 5 * scale, -4 * scale, 6.5 * scale);
@@ -75,11 +84,13 @@ function drawHead(ctx: CanvasRenderingContext2D, seg: Segment, scale: number) {
   ctx.lineTo(-4 * scale, -6.5 * scale);
   ctx.quadraticCurveTo(7 * scale, -5 * scale, 15 * scale, 0);
   ctx.closePath();
-  ctx.fillStyle = '#22c55e';
+  ctx.fillStyle = '#38bdf8';
   ctx.fill();
 
-  // Bright green eyes & crest diamond
-  ctx.fillStyle = '#86efac';
+  // Glowing pale-blue eyes & crest diamond
+  ctx.shadowColor = '#bae6fd';
+  ctx.shadowBlur = 8 * scale;
+  ctx.fillStyle = '#e0f2fe';
   ctx.beginPath();
   ctx.ellipse(6 * scale, -4.8 * scale, 2.4 * scale, 1.3 * scale, -0.35, 0, Math.PI * 2);
   ctx.fill();
@@ -123,13 +134,22 @@ function drawVertebra(
   ctx.quadraticCurveTo(0.45 * r, -0.65 * r, 0.62 * r, 0);
   ctx.closePath();
 
+  ctx.shadowColor = '#38bdf8';
+  ctx.shadowBlur = Math.max(5, 12 * factor);
   ctx.fillStyle = getSegmentColor(index);
   ctx.fill();
 
+  // Crisp glowing outer edge around each vertebra
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = Math.max(0.75, 1.35 * factor);
+  ctx.strokeStyle = index <= 14 ? '#e0f2fe' : '#bae6fd';
+  ctx.stroke();
+
   if (index <= 16) {
+    ctx.shadowBlur = 0;
     ctx.beginPath();
     ctx.arc(0.05 * r, 0, 0.2 * r, 0, Math.PI * 2);
-    ctx.fillStyle = index <= 8 ? '#86efac' : '#4ade80';
+    ctx.fillStyle = index <= 8 ? '#e0f2fe' : '#bae6fd';
     ctx.fill();
   }
 
@@ -164,15 +184,29 @@ function drawWingPair(
     const p2x = -span * 0.52;
     const p2y = sideSign * span * 0.94;
 
+    ctx.lineCap = 'round';
+    ctx.shadowColor = '#38bdf8';
+    ctx.shadowBlur = (isFront ? 15 : 12) * scale;
+
     ctx.beginPath();
     ctx.moveTo(p0x, p0y);
     ctx.quadraticCurveTo(p1x, p1y, p2x, p2y);
-    ctx.strokeStyle = isFront ? '#4ade80' : '#22c55e';
-    ctx.lineWidth = (isFront ? 2.6 : 2.1) * scale;
-    ctx.lineCap = 'round';
+    ctx.strokeStyle = isFront ? '#7dd3fc' : '#38bdf8';
+    ctx.lineWidth = (isFront ? 3.2 : 2.6) * scale;
     ctx.stroke();
 
-    // Sweeping skeletal wing-ribs fanning backward
+    // Luminous ice-blue core along leading wing edge
+    ctx.shadowBlur = 0;
+    ctx.beginPath();
+    ctx.moveTo(p0x, p0y);
+    ctx.quadraticCurveTo(p1x, p1y, p2x, p2y);
+    ctx.strokeStyle = '#e0f2fe';
+    ctx.lineWidth = (isFront ? 1.25 : 1.0) * scale;
+    ctx.stroke();
+
+    // Sweeping skeletal wing-ribs fanning backward with edge glow
+    ctx.shadowColor = '#38bdf8';
+    ctx.shadowBlur = (isFront ? 11 : 9) * scale;
     for (let r = 0; r < ribCount; r++) {
       const t = 0.2 + (r / (ribCount - 1)) * 0.8;
       const omt = 1 - t;
@@ -190,9 +224,8 @@ function drawWingPair(
       ctx.beginPath();
       ctx.moveTo(rx, ry);
       ctx.quadraticCurveTo(ctrlX, ctrlY, tipX, tipY);
-      ctx.strokeStyle = r % 3 === 0 && isFront ? '#22c55e' : '#16a34a';
-      ctx.lineWidth = Math.max(0.8, (2.0 - r * 0.14) * scale);
-      ctx.lineCap = 'round';
+      ctx.strokeStyle = r % 3 === 0 && isFront ? '#bae6fd' : '#7dd3fc';
+      ctx.lineWidth = Math.max(0.95, (2.1 - r * 0.14) * scale);
       ctx.stroke();
     }
 
@@ -225,11 +258,11 @@ export function BackgroundDragon() {
     let height = window.innerHeight;
     let animationFrameId = 0;
 
-    const getScale = () => Math.min(1, Math.max(0.62, width / 1280));
+    const getScale = () => Math.min(1.48, Math.max(0.88, (width / 1280) * 1.42));
     const getDefaultAnchor = () => {
       const s = getScale();
-      const pageX = width < 640 ? width * 0.68 : Math.min(width - 170 * s, width * 0.72);
-      const pageY = width < 640 ? 118 : 132;
+      const pageX = width < 640 ? width * 0.66 : Math.min(width - 210 * s, width * 0.72);
+      const pageY = width < 640 ? 142 : 162;
       return {pageX, pageY};
     };
 
@@ -505,7 +538,7 @@ export function BackgroundDragon() {
 
       const scrollX = getScrollX();
       const scrollY = getScrollY();
-      const wingPad = 180 * s;
+      const wingPad = 260 * s;
 
       if (!prefersReduced) {
         wingPhase += (0.032 + 0.048 * motionActivity) * dt;

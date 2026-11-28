@@ -30,7 +30,12 @@ export function Section({
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (prefersReduced || typeof IntersectionObserver === 'undefined') {
+    const rect = el.getBoundingClientRect();
+    if (
+      prefersReduced ||
+      typeof IntersectionObserver === 'undefined' ||
+      rect.top < window.innerHeight * 0.95
+    ) {
       setVisible(true);
       return;
     }

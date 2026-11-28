@@ -16,7 +16,7 @@ export function Community() {
       subtitle="Share screenshots from your travels, post fan art, swap puzzle hints, and help shape future updates with your feedback and bug reports."
       className="bg-transparent"
     >
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
         {enabledSocials.map((social) => (
           <SocialIcon key={social.id} social={social} variant="card" />
         ))}

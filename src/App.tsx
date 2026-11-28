@@ -1,4 +1,4 @@
-import {Component, lazy, Suspense, useCallback, useEffect, useState, type ReactNode} from 'react';
+import {Component, useCallback, useEffect, useState, type ReactNode} from 'react';
 import {BackgroundDragon} from './components/BackgroundDragon';
 import {Community} from './components/Community';
 import {Download} from './components/Download';
@@ -9,24 +9,37 @@ import {Hero} from './components/Hero';
 import {Navbar} from './components/Navbar';
 import {News} from './components/News';
 import {SectionDivider} from './components/SectionDivider';
-
-const ExploreGamePage = lazy(() =>
-  import('./pages/ExploreGamePage').then((m) => ({default: m.ExploreGamePage})),
-);
+import {ExploreGamePage} from './pages/ExploreGamePage';
+import {SectionPage, type PageId} from './pages/SectionPage';
+import {SignInPage} from './pages/SignInPage';
 
 interface ParsedRoute {
-  page: 'home' | 'explore';
+  page: PageId;
   section?: string;
   regionId?: string;
+  anchor?: string;
 }
 
+const VERIFIED_EMAIL_STORAGE_KEY = 'journey_home_verified_email';
+
+const PAGE_TITLES: Record<PageId, string> = {
+  home: 'Journey Home — Indie 3D Adventure Game',
+  explore: 'Explore Game — Journey Home',
+  screenshots: 'Screenshots & Trailer — Journey Home',
+  signin: 'Sign In — Journey Home',
+};
+
 function parseHashRoute(hash: string): ParsedRoute {
-  const clean = hash.replace(/^#/, '');
-  if (clean === 'explore' || clean === '/explore') {
+  const clean = hash.replace(/^#\/?/, '').trim();
+
+  if (!clean || clean === 'home' || clean === 'hero') {
+    return {page: 'home'};
+  }
+  if (clean === 'explore') {
     return {page: 'explore'};
   }
-  if (clean.startsWith('/explore/')) {
-    const rest = clean.slice('/explore/'.length).trim();
+  if (clean.startsWith('explore/')) {
+    const rest = clean.slice('explore/'.length).trim();
     if (rest.startsWith('regions/')) {
       return {
         page: 'explore',
@@ -36,14 +49,45 @@ function parseHashRoute(hash: string): ParsedRoute {
     }
     return {page: 'explore', section: rest || undefined};
   }
-  if (clean === 'regions' || clean === '/regions') {
+  if (clean === 'regions') {
     return {page: 'explore', section: 'regions'};
   }
-  if (clean.startsWith('/regions/')) {
-    const regionId = clean.slice('/regions/'.length).trim();
+  if (clean.startsWith('regions/')) {
+    const regionId = clean.slice('regions/'.length).trim();
     return {page: 'explore', section: 'regions', regionId: regionId || undefined};
   }
+  if (clean === 'story' || clean === 'about' || clean === 'features') {
+    return {page: 'explore', section: clean};
+  }
+  if (clean === 'screenshots') {
+    return {page: 'screenshots'};
+  }
+  if (clean === 'trailer') {
+    return {page: 'screenshots', anchor: 'trailer'};
+  }
+  if (clean === 'signin' || clean === 'sign-in' || clean === 'login') {
+    return {page: 'signin'};
+  }
+  if (clean === 'download' || clean === 'news' || clean === 'faq' || clean === 'community') {
+    return {page: 'home', anchor: clean};
+  }
+
   return {page: 'home'};
+}
+
+function getCanonicalHash(page: PageId, options?: {section?: string; regionId?: string; anchor?: string}): string {
+  if (page === 'home') {
+    return options?.anchor ? `#${options.anchor}` : '#/';
+  }
+  if (page === 'explore') {
+    if (options?.regionId) return `#/explore/regions/${options.regionId}`;
+    if (options?.section) return `#/explore/${options.section}`;
+    return '#/explore';
+  }
+  if (page === 'screenshots' && options?.anchor === 'trailer') {
+    return '#/trailer';
+  }
+  return `#/${page}`;
 }
 
 interface RouteErrorBoundaryProps {
@@ -70,7 +114,7 @@ class RouteErrorBoundary extends Component<RouteErrorBoundaryProps, RouteErrorBo
             Could not load this view
           </h2>
           <p className="text-sm text-[#cccccc]">
-            Please try reloading the page or returning to the main view.
+            Please try reloading the page or returning to the home page.
           </p>
           <div className="flex justify-center gap-3">
             <button
@@ -91,25 +135,47 @@ class RouteErrorBoundary extends Component<RouteErrorBoundaryProps, RouteErrorBo
   }
 }
 
-function SectionFallback({id, label}: {id?: string; label: string}) {
-  return (
-    <div id={id} className="scroll-mt-20 py-20 px-4 text-center text-sm text-[#999999]">
-      Loading {label}…
-    </div>
-  );
-}
-
 export default function App() {
   const [route, setRoute] = useState<ParsedRoute>(() =>
     typeof window !== 'undefined' ? parseHashRoute(window.location.hash) : {page: 'home'},
   );
-  const [pendingSectionId, setPendingSectionId] = useState<string | null>(null);
+  const [verifiedEmail, setVerifiedEmail] = useState<string | null>(() => {
+    try {
+      return typeof window !== 'undefined'
+        ? window.sessionStorage.getItem(VERIFIED_EMAIL_STORAGE_KEY)
+        : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const handleVerified = useCallback((email: string) => {
+    setVerifiedEmail(email);
+    try {
+      window.sessionStorage.setItem(VERIFIED_EMAIL_STORAGE_KEY, email);
+    } catch {
+      // Ignore storage errors in restricted contexts
+    }
+  }, []);
+
+  const handleSignOut = useCallback(() => {
+    setVerifiedEmail(null);
+    try {
+      window.sessionStorage.removeItem(VERIFIED_EMAIL_STORAGE_KEY);
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
+
+  useEffect(() => {
+    document.title = PAGE_TITLES[route.page];
+  }, [route.page]);
 
   useEffect(() => {
     const onHashChange = () => {
       const next = parseHashRoute(window.location.hash);
       setRoute(next);
-      if (next.page === 'explore' && !next.section) {
+      if (!next.anchor && !next.section) {
         window.scrollTo({top: 0, behavior: 'auto'});
       }
     };
@@ -118,78 +184,95 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (route.page !== 'home' || !pendingSectionId) return;
+    if (!route.anchor) return;
+    const anchorId = route.anchor;
+    const timer = window.setTimeout(() => {
+      document.getElementById(anchorId)?.scrollIntoView({behavior: 'smooth'});
+    }, 60);
+    return () => window.clearTimeout(timer);
+  }, [route.page, route.anchor]);
 
-    let attempts = 0;
-    const timer = window.setInterval(() => {
-      attempts += 1;
-      const el = document.getElementById(pendingSectionId);
-      if (el) {
-        el.scrollIntoView({behavior: 'smooth'});
-        setPendingSectionId(null);
-        window.clearInterval(timer);
-      } else if (attempts > 20) {
-        setPendingSectionId(null);
-        window.clearInterval(timer);
-      }
-    }, 50);
-
-    return () => window.clearInterval(timer);
-  }, [route.page, pendingSectionId]);
-
-  const navigateToExplore = useCallback((options?: {section?: string; regionId?: string}) => {
-    const section = options?.section;
-    const regionId = options?.regionId;
-    let targetHash = '#/explore';
-    if (regionId) {
-      targetHash = `#/explore/regions/${regionId}`;
-    } else if (section) {
-      targetHash = `#/explore/${section}`;
-    }
-
-    if (window.location.hash !== targetHash) {
-      window.location.hash = targetHash;
-    }
-    setRoute({page: 'explore', section, regionId});
-    setPendingSectionId(null);
-    if (!section && !regionId) {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-  }, []);
-
-  const navigateToHomeSection = useCallback(
-    (sectionId?: string) => {
-      const targetHash = sectionId ? `#${sectionId}` : '#/';
-      if (route.page === 'home') {
-        if (sectionId) {
-          const el = document.getElementById(sectionId);
-          if (el) {
-            el.scrollIntoView({behavior: 'smooth'});
-          } else {
-            setPendingSectionId(sectionId);
-          }
-          if (window.location.hash !== `#${sectionId}`) {
-            window.history.replaceState(null, '', `#${sectionId}`);
-          }
-        } else {
-          window.scrollTo({top: 0, behavior: 'smooth'});
-          if (window.location.hash) {
-            window.history.replaceState(null, '', '#/');
-          }
+  const navigate = useCallback(
+    (page: PageId, options?: {section?: string; regionId?: string; anchor?: string}) => {
+      const targetHash = getCanonicalHash(page, options);
+      if (page === route.page && options?.anchor) {
+        document.getElementById(options.anchor)?.scrollIntoView({behavior: 'smooth'});
+        if (window.location.hash !== targetHash) {
+          window.history.replaceState(null, '', targetHash);
         }
         return;
       }
 
-      window.location.hash = targetHash;
-      setRoute({page: 'home'});
-      if (sectionId) {
-        setPendingSectionId(sectionId);
-      } else {
+      if (window.location.hash !== targetHash) {
+        window.location.hash = targetHash;
+      }
+      setRoute({
+        page,
+        section: options?.section,
+        regionId: options?.regionId,
+        anchor: options?.anchor,
+      });
+
+      if (!options?.anchor && !options?.section && !options?.regionId) {
         window.scrollTo({top: 0, behavior: 'auto'});
       }
     },
     [route.page],
   );
+
+  const renderPage = () => {
+    switch (route.page) {
+      case 'explore':
+        return (
+          <ExploreGamePage
+            selectedRegionId={route.regionId}
+            targetSection={route.section}
+            onSelectRegion={(regionId) => {
+              const targetHash = `#/explore/regions/${regionId}`;
+              if (window.location.hash !== targetHash) {
+                window.history.replaceState(null, '', targetHash);
+              }
+              setRoute({page: 'explore', section: 'regions', regionId});
+            }}
+            onNavigate={navigate}
+          />
+        );
+      case 'screenshots':
+        return (
+          <SectionPage
+            prev={{page: 'explore', label: 'Explore Game', href: '#/explore'}}
+            next={{page: 'home', anchor: 'download', label: 'Download', href: '#download'}}
+            onNavigate={navigate}
+          >
+            <Gallery />
+          </SectionPage>
+        );
+      case 'signin':
+        return (
+          <SignInPage
+            verifiedEmail={verifiedEmail}
+            onVerified={handleVerified}
+            onSignOut={handleSignOut}
+            onNavigate={navigate}
+          />
+        );
+      case 'home':
+      default:
+        return (
+          <>
+            <Hero onNavigate={navigate} />
+            <SectionDivider kind="ruins" />
+            <Download />
+            <SectionDivider kind="waves" />
+            <News />
+            <SectionDivider kind="canopy" />
+            <Faq />
+            <SectionDivider kind="peaks" />
+            <Community />
+          </>
+        );
+    }
+  };
 
   return (
     <div className="relative min-h-screen flex flex-col bg-black text-white">
@@ -202,51 +285,15 @@ export default function App() {
         Skip to content
       </a>
 
-      <Navbar
-        currentPage={route.page}
-        onNavigateHomeSection={navigateToHomeSection}
-        onNavigateExplore={() => navigateToExplore()}
-      />
+      <Navbar currentPage={route.page} signedInEmail={verifiedEmail} onNavigate={navigate} />
 
       <main id="main-content" className="relative z-10 flex-1">
-        <RouteErrorBoundary onReset={() => navigateToHomeSection()}>
-          {route.page === 'explore' ? (
-            <Suspense fallback={<SectionFallback label="Explore Game" />}>
-              <ExploreGamePage
-                selectedRegionId={route.regionId}
-                targetSection={route.section}
-                onSelectRegion={(regionId) => {
-                  const targetHash = `#/explore/regions/${regionId}`;
-                  if (window.location.hash !== targetHash) {
-                    window.history.replaceState(null, '', targetHash);
-                  }
-                  setRoute({page: 'explore', section: 'regions', regionId});
-                }}
-                onBackHome={navigateToHomeSection}
-              />
-            </Suspense>
-          ) : (
-            <>
-              <Hero onOpenExplore={() => navigateToExplore()} />
-              <SectionDivider kind="ruins" />
-              <Gallery />
-              <SectionDivider kind="waves" />
-              <Download />
-              <SectionDivider kind="canopy" />
-              <News />
-              <SectionDivider kind="peaks" />
-              <Community />
-              <SectionDivider kind="canopy" />
-              <Faq />
-            </>
-          )}
+        <RouteErrorBoundary onReset={() => navigate('home')}>
+          {renderPage()}
         </RouteErrorBoundary>
       </main>
 
-      <Footer
-        onNavigateHomeSection={navigateToHomeSection}
-        onNavigateExplore={() => navigateToExplore()}
-      />
+      <Footer onNavigate={navigate} />
     </div>
   );
 }

@@ -1,51 +1,50 @@
 import {useEffect, useState} from 'react';
 import {siteConfig} from '../config/siteConfig';
+import type {PageId} from '../pages/SectionPage';
 import {Button} from './Button';
 import {Logo} from './Logo';
 import {SocialIcon} from './SocialIcon';
 
 interface NavLinkItem {
-  id: string;
+  key: string;
+  page: PageId;
+  anchor?: string;
   label: string;
-  isPage?: boolean;
+  href: string;
 }
 
 interface NavbarProps {
-  currentPage: 'home' | 'explore';
-  onNavigateHomeSection: (sectionId?: string) => void;
-  onNavigateExplore: () => void;
+  currentPage: PageId;
+  signedInEmail?: string | null;
+  onNavigate: (page: PageId, options?: {anchor?: string}) => void;
 }
 
 const NAV_LINKS: NavLinkItem[] = [
-  {id: 'explore', label: 'Explore Game', isPage: true},
-  {id: 'screenshots', label: 'Screenshots'},
-  {id: 'download', label: 'Download'},
-  {id: 'news', label: 'News'},
-  {id: 'community', label: 'Community'},
-  {id: 'faq', label: 'FAQ'},
+  {key: 'hero', page: 'home', label: 'Home', href: '#/'},
+  {key: 'explore', page: 'explore', label: 'Explore Game', href: '#/explore'},
+  {key: 'screenshots', page: 'screenshots', label: 'Screenshots', href: '#/screenshots'},
+  {key: 'download', page: 'home', anchor: 'download', label: 'Download', href: '#download'},
+  {key: 'news', page: 'home', anchor: 'news', label: 'News', href: '#news'},
+  {key: 'faq', page: 'home', anchor: 'faq', label: 'FAQ', href: '#faq'},
+  {key: 'community', page: 'home', anchor: 'community', label: 'Community', href: '#community'},
 ];
 
-export function Navbar({
-  currentPage,
-  onNavigateHomeSection,
-  onNavigateExplore,
-}: NavbarProps) {
+export function Navbar({currentPage, signedInEmail, onNavigate}: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeId, setActiveId] = useState<string>('hero');
+  const [activeHomeSection, setActiveHomeSection] = useState<string>('hero');
 
   useEffect(() => {
-    if (currentPage === 'explore') {
-      setActiveId('explore');
+    if (currentPage !== 'home') {
       return;
     }
 
-    const sectionIds = ['hero', ...NAV_LINKS.filter((l) => !l.isPage).map((l) => l.id)];
+    const sectionIds = ['hero', 'download', 'news', 'faq', 'community'];
     const elements = sectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     if (elements.length === 0 || typeof IntersectionObserver === 'undefined') {
-      setActiveId('hero');
+      setActiveHomeSection('hero');
       return;
     }
 
@@ -53,7 +52,7 @@ export function Navbar({
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
+            setActiveHomeSection(entry.target.id);
           }
         }
       },
@@ -81,17 +80,19 @@ export function Navbar({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [mobileOpen]);
 
-  const desktopSocials = siteConfig.socialLinks
-    .filter((s) => s.enabled && ['youtube', 'discord', 'itch', 'steam'].includes(s.id));
+  const desktopSocials = siteConfig.socialLinks.filter((s) => s.enabled);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
     e.preventDefault();
     setMobileOpen(false);
-    if (link.isPage) {
-      onNavigateExplore();
-    } else {
-      onNavigateHomeSection(link.id);
+    onNavigate(link.page, link.anchor ? {anchor: link.anchor} : undefined);
+  };
+
+  const isLinkActive = (link: NavLinkItem) => {
+    if (link.page !== 'home') {
+      return currentPage === link.page;
     }
+    return currentPage === 'home' && activeHomeSection === link.key;
   };
 
   return (
@@ -102,7 +103,7 @@ export function Navbar({
           onClick={(e) => {
             e.preventDefault();
             setMobileOpen(false);
-            onNavigateHomeSection();
+            onNavigate('home');
           }}
           aria-label="Journey Home — Back to home"
           className="rounded-md focus-visible:outline-offset-4 shrink-0"
@@ -110,16 +111,14 @@ export function Navbar({
           <Logo />
         </a>
 
-        <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-5 xl:gap-6">
+        <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-4 xl:gap-5">
           {NAV_LINKS.map((link) => {
-            const isActive =
-              (link.isPage && currentPage === 'explore') ||
-              (!link.isPage && currentPage === 'home' && activeId === link.id);
+            const isActive = isLinkActive(link);
 
             return (
               <a
-                key={link.id}
-                href={link.isPage ? '#/explore' : `#${link.id}`}
+                key={link.key}
+                href={link.href}
                 onClick={(e) => handleLinkClick(e, link)}
                 aria-current={isActive ? 'page' : undefined}
                 className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 transition-colors ${
@@ -140,15 +139,23 @@ export function Navbar({
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3 shrink-0">
+        <div className="hidden lg:flex items-center gap-2.5 shrink-0">
           <div className="hidden xl:flex items-center gap-0.5 pr-1 border-r border-[#262626]">
             {desktopSocials.map((social) => (
               <SocialIcon key={social.id} social={social} variant="compact" />
             ))}
           </div>
           <Button
+            href="#/signin"
+            onClick={() => onNavigate('signin')}
+            variant={currentPage === 'signin' ? 'secondary' : 'ghost'}
+            size="sm"
+          >
+            {signedInEmail ? 'Signed In' : 'Sign In'}
+          </Button>
+          <Button
             href="#download"
-            onClick={() => onNavigateHomeSection('download')}
+            onClick={() => onNavigate('home', {anchor: 'download'})}
             variant="primary"
             size="sm"
           >
@@ -158,10 +165,21 @@ export function Navbar({
 
         <div className="flex lg:hidden items-center gap-2 shrink-0">
           <Button
+            href="#/signin"
+            onClick={() => {
+              setMobileOpen(false);
+              onNavigate('signin');
+            }}
+            variant={currentPage === 'signin' ? 'secondary' : 'ghost'}
+            size="sm"
+          >
+            {signedInEmail ? 'Signed In' : 'Sign In'}
+          </Button>
+          <Button
             href="#download"
             onClick={() => {
               setMobileOpen(false);
-              onNavigateHomeSection('download');
+              onNavigate('home', {anchor: 'download'});
             }}
             variant="primary"
             size="sm"
@@ -196,14 +214,20 @@ export function Navbar({
           className="lg:hidden border-t border-[#262626] bg-[#0a0a0a] px-4 py-4"
         >
           <ul className="grid grid-cols-2 gap-2">
-            {NAV_LINKS.map((link) => {
-              const isActive =
-                (link.isPage && currentPage === 'explore') ||
-                (!link.isPage && currentPage === 'home' && activeId === link.id);
+            {[
+              ...NAV_LINKS,
+              {
+                key: 'signin',
+                page: 'signin' as PageId,
+                label: signedInEmail ? 'Account (Signed In)' : 'Sign In',
+                href: '#/signin',
+              },
+            ].map((link) => {
+              const isActive = isLinkActive(link);
               return (
-                <li key={link.id}>
+                <li key={link.key}>
                   <a
-                    href={link.isPage ? '#/explore' : `#${link.id}`}
+                    href={link.href}
                     onClick={(e) => handleLinkClick(e, link)}
                     aria-current={isActive ? 'page' : undefined}
                     className={`flex items-center min-h-[44px] px-3.5 rounded-lg text-sm font-medium transition-colors ${

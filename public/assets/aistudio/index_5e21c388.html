@@ -1,0 +1,1202 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="One-time email verification portal.">
+  <title>Email Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --line-core: rgba(22, 163, 74, 0.24);
+      --line-edge: rgba(22, 163, 74, 0.09);
+      --canvas-shadow: 0 1px 10px rgba(248, 250, 252, 0.95);
+      --console-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --canvas-text: #09090b;
+      --canvas-muted: #475569;
+      --canvas-kicker: #15803d;
+      --canvas-step-num: #64748b;
+      --canvas-step-active: #09090b;
+      --canvas-step-done: #15803d;
+      --canvas-border: #cbd5e1;
+      --topbar-bg: #ffffff;
+      --topbar-text: #09090b;
+      --topbar-border: #e2e8f0;
+      --topbar-mark: #16a34a;
+      --seg-bg: #ffffff;
+      --seg-border: #cbd5e1;
+      --seg-text: #475569;
+      --seg-hover-text: #09090b;
+      --seg-active-bg: #22c55e;
+      --seg-active-text: #050505;
+      --seg-active-border: #16a34a;
+      --surface: #ffffff;
+      --surface-subtle: #f1f5f9;
+      --border: #cbd5e1;
+      --border-strong: #cbd5e1;
+      --text: #09090b;
+      --text-muted: #475569;
+      --input-bg: #f8fafc;
+      --input-focus-bg: #ffffff;
+      --input-text: #09090b;
+      --input-placeholder: #64748b;
+      --input-border: #cbd5e1;
+      --secondary-bg: #f1f5f9;
+      --secondary-hover: #e2e8f0;
+      --secondary-text: #09090b;
+      --secondary-border: #cbd5e1;
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --accent-text: #15803d;
+      --accent-contrast: #050505;
+      --accent-border: #16a34a;
+      --accent-soft: rgba(34, 197, 94, 0.14);
+      --highlight: #15803d;
+      --success: #15803d;
+      --success-soft: rgba(21, 128, 61, 0.1);
+      --danger: #b91c1c;
+      --danger-soft: rgba(185, 28, 28, 0.08);
+      --focus-ring: rgba(22, 163, 74, 0.24);
+      --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-body: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #000000;
+      --line-core: #22c55e;
+      --line-edge: rgba(34, 197, 94, 0.25);
+      --canvas-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
+      --console-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+      --canvas-text: #ffffff;
+      --canvas-muted: #a1a1aa;
+      --canvas-kicker: #22c55e;
+      --canvas-step-num: #a1a1aa;
+      --canvas-step-active: #ffffff;
+      --canvas-step-done: #22c55e;
+      --canvas-border: #333333;
+      --topbar-bg: #0a0a0a;
+      --topbar-text: #ffffff;
+      --topbar-border: #222222;
+      --topbar-mark: #22c55e;
+      --seg-bg: #1a1a1a;
+      --seg-border: #333333;
+      --seg-text: #a1a1aa;
+      --seg-hover-text: #ffffff;
+      --seg-active-bg: #22c55e;
+      --seg-active-text: #050505;
+      --seg-active-border: #22c55e;
+      --surface: #111111;
+      --surface-subtle: #1a1a1a;
+      --border: #2a2a2a;
+      --border-strong: #333333;
+      --text: #ffffff;
+      --text-muted: #a1a1aa;
+      --input-bg: #1a1a1a;
+      --input-focus-bg: #202020;
+      --input-text: #ffffff;
+      --input-placeholder: #8e8e93;
+      --input-border: #333333;
+      --secondary-bg: #1a1a1a;
+      --secondary-hover: #262626;
+      --secondary-text: #ffffff;
+      --secondary-border: #333333;
+      --accent: #22c55e;
+      --accent-hover: #4ade80;
+      --accent-text: #22c55e;
+      --accent-contrast: #050505;
+      --accent-border: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.14);
+      --highlight: #22c55e;
+      --success: #4ade80;
+      --success-soft: rgba(34, 197, 94, 0.14);
+      --danger: #fca5a5;
+      --danger-soft: rgba(239, 68, 68, 0.14);
+      --focus-ring: rgba(34, 197, 94, 0.28);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="system"] {
+        color-scheme: dark;
+        --bg: #000000;
+        --line-core: #22c55e;
+        --line-edge: rgba(34, 197, 94, 0.25);
+        --canvas-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
+        --console-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+        --canvas-text: #ffffff;
+        --canvas-muted: #a1a1aa;
+        --canvas-kicker: #22c55e;
+        --canvas-step-num: #a1a1aa;
+        --canvas-step-active: #ffffff;
+        --canvas-step-done: #22c55e;
+        --canvas-border: #333333;
+        --topbar-bg: #0a0a0a;
+        --topbar-text: #ffffff;
+        --topbar-border: #222222;
+        --topbar-mark: #22c55e;
+        --seg-bg: #1a1a1a;
+        --seg-border: #333333;
+        --seg-text: #a1a1aa;
+        --seg-hover-text: #ffffff;
+        --seg-active-bg: #22c55e;
+        --seg-active-text: #050505;
+        --seg-active-border: #22c55e;
+        --surface: #111111;
+        --surface-subtle: #1a1a1a;
+        --border: #2a2a2a;
+        --border-strong: #333333;
+        --text: #ffffff;
+        --text-muted: #a1a1aa;
+        --input-bg: #1a1a1a;
+        --input-focus-bg: #202020;
+        --input-text: #ffffff;
+        --input-placeholder: #8e8e93;
+        --input-border: #333333;
+        --secondary-bg: #1a1a1a;
+        --secondary-hover: #262626;
+        --secondary-text: #ffffff;
+        --secondary-border: #333333;
+        --accent: #22c55e;
+        --accent-hover: #4ade80;
+        --accent-text: #22c55e;
+        --accent-contrast: #050505;
+        --accent-border: #22c55e;
+        --accent-soft: rgba(34, 197, 94, 0.14);
+        --highlight: #22c55e;
+        --success: #4ade80;
+        --success-soft: rgba(34, 197, 94, 0.14);
+        --danger: #fca5a5;
+        --danger-soft: rgba(239, 68, 68, 0.14);
+        --focus-ring: rgba(34, 197, 94, 0.28);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+      transition: background-color 180ms var(--ease), color 180ms var(--ease);
+    }
+
+    :root[data-theme="dark"] body {
+      letter-spacing: 0.005em;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="system"] body {
+        letter-spacing: 0.005em;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    /* Background Green Diagonal Lines Layer */
+    .bg-lines {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent 0px,
+        transparent 104px,
+        var(--line-edge) 106px,
+        var(--line-core) 108px,
+        var(--line-core) 112px,
+        var(--line-edge) 114px,
+        transparent 116px,
+        transparent 220px
+      );
+    }
+
+    /* Top Bar */
+    .topbar {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid var(--topbar-border);
+      background-color: var(--topbar-bg);
+      color: var(--topbar-text);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 24px;
+      height: 24px;
+      color: var(--topbar-mark);
+      flex-shrink: 0;
+    }
+
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      min-height: calc(100vh - 69px);
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Primary Split Workspace */
+    .workspace {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 48px;
+      align-items: stretch;
+    }
+
+    .rail {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 8px 0;
+      color: var(--canvas-text);
+      text-shadow: var(--canvas-shadow);
+    }
+
+    .rail-kicker {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--canvas-kicker);
+    }
+
+    .rail-title {
+      margin: 0 0 16px;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.4vw, 2.85rem);
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+      color: var(--canvas-text);
+    }
+
+    .rail-desc {
+      margin: 0;
+      max-width: 44ch;
+      color: var(--canvas-muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* Step Rail */
+    .steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--canvas-border);
+    }
+
+    .step-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--canvas-border);
+      opacity: 0.72;
+      transition: opacity 180ms var(--ease);
+    }
+
+    .step-item.is-active,
+    .step-item.is-done {
+      opacity: 1;
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--canvas-step-num);
+      padding-top: 2px;
+    }
+
+    .step-item.is-active .step-num {
+      color: var(--canvas-step-active);
+    }
+
+    .step-item.is-done .step-num {
+      color: var(--canvas-step-done);
+    }
+
+    .step-name {
+      margin: 0 0 2px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--canvas-text);
+    }
+
+    .step-note {
+      margin: 0;
+      font-size: 13px;
+      color: var(--canvas-muted);
+    }
+
+    /* Theme Control */
+    .theme-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 4px;
+    }
+
+    .theme-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--canvas-muted);
+    }
+
+    .segmented {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background-color: var(--seg-bg);
+      border: 1px solid var(--seg-border);
+      border-radius: 10px;
+      text-shadow: none;
+    }
+
+    .segmented button {
+      min-height: 36px;
+      padding: 6px 14px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--seg-text);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background-color 150ms var(--ease), color 150ms var(--ease);
+    }
+
+    .segmented button:not([aria-checked="true"]):hover {
+      color: var(--seg-hover-text);
+    }
+
+    .segmented button[aria-checked="true"] {
+      background-color: var(--seg-active-bg);
+      color: var(--seg-active-text);
+      border: 1px solid var(--seg-active-border);
+    }
+
+    .segmented button:focus-visible {
+      outline: 2px solid var(--highlight);
+      outline-offset: 1px;
+    }
+
+    /* Primary Verification Console */
+    .console {
+      background-color: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(24px, 4vw, 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--console-shadow);
+    }
+
+    .panel-kicker {
+      margin: 0 0 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--highlight);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .panel-title {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      font-weight: 600;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+    }
+
+    .panel-sub {
+      margin: 0 0 28px;
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 46ch;
+      overflow-wrap: anywhere;
+    }
+
+    .panel-sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    .field-label {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .text-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 16px;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      font-size: 15px;
+      transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease), background-color 150ms var(--ease);
+    }
+
+    .text-input::placeholder {
+      color: var(--input-placeholder);
+      opacity: 1;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: var(--highlight);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+      background-color: var(--input-focus-bg);
+    }
+
+    /* 6-Digit Segmented OTP Input */
+    .otp-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .otp-cell {
+      width: 100%;
+      height: 60px;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease), background-color 150ms var(--ease), transform 150ms var(--ease);
+    }
+
+    .otp-cell:focus {
+      outline: none;
+      border-color: var(--highlight);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+      background-color: var(--input-focus-bg);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 24px;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      background-color: var(--accent);
+      color: var(--accent-contrast);
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 150ms var(--ease), transform 150ms var(--ease), opacity 150ms var(--ease);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--highlight);
+      outline-offset: 2px;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.52;
+      cursor: not-allowed;
+    }
+
+    .secondary-actions {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .resend-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      min-height: 40px;
+      padding: 8px 16px;
+      border: 1px solid var(--secondary-border);
+      border-radius: 8px;
+      background-color: var(--secondary-bg);
+      color: var(--secondary-text);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background-color 150ms var(--ease), border-color 150ms var(--ease), opacity 150ms var(--ease);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--secondary-hover);
+      border-color: var(--text-muted);
+    }
+
+    .btn-secondary:focus-visible {
+      outline: 2px solid var(--highlight);
+      outline-offset: 2px;
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .timer {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Success Step */
+    .success-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background-color: var(--success-soft);
+      border: 1px solid var(--success);
+      color: var(--success);
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+    }
+
+    .verified-email-box {
+      margin: 0 0 24px;
+      padding: 14px 16px;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      background-color: var(--input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .verified-email-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--input-placeholder);
+      white-space: nowrap;
+    }
+
+    .verified-email-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--input-text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Status Alert */
+    .status-banner {
+      margin-top: 20px;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 150ms var(--ease);
+    }
+
+    .status-banner.is-visible {
+      opacity: 1;
+    }
+
+    .status-banner.is-info {
+      background-color: var(--surface-subtle);
+      border-color: var(--border);
+      color: var(--input-text);
+    }
+
+    .status-banner.is-success {
+      background-color: var(--success-soft);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .status-banner.is-error {
+      background-color: var(--danger-soft);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .status-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 960px) {
+      .container {
+        min-height: auto;
+        display: block;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner {
+        padding: 0 16px;
+        gap: 12px;
+      }
+
+      .container {
+        padding: 28px 16px 40px;
+      }
+
+      .otp-grid {
+        gap: 6px;
+      }
+
+      .otp-cell {
+        height: 52px;
+        font-size: 19px;
+      }
+
+      .secondary-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .resend-cluster {
+        justify-content: space-between;
+      }
+
+      .theme-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-lines" aria-hidden="true"></div>
+
+  <header class="topbar" id="top">
+    <div class="topbar-inner">
+      <a href="#top" class="brand">
+        <svg class="brand-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M8 12.2L10.8 15L16.2 9.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Email Verification</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="verification" class="workspace" aria-label="Email verification workspace">
+      <aside class="rail">
+        <div class="theme-bar">
+          <span class="theme-label" id="themeGroupLabel">Appearance</span>
+          <div class="segmented" role="radiogroup" aria-labelledby="themeGroupLabel">
+            <button type="button" role="radio" data-theme-value="system" aria-checked="true">System</button>
+            <button type="button" role="radio" data-theme-value="dark" aria-checked="false">Dark</button>
+            <button type="button" role="radio" data-theme-value="light" aria-checked="false">Light</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="rail-kicker">One-Time Email Verification</p>
+          <h1 class="rail-title">Verify your email in three steps.</h1>
+          <p class="rail-desc">
+            Enter an email address to request a six-digit one-time verification code, confirm receipt from your inbox, and complete validation.
+          </p>
+        </div>
+
+        <ol class="steps" aria-label="Verification progress">
+          <li id="railStep1" class="step-item is-active">
+            <span class="step-num">01</span>
+            <div>
+              <p class="step-name">Submit Email Address</p>
+              <p class="step-note">Request a one-time challenge for your inbox.</p>
+            </div>
+          </li>
+          <li id="railStep2" class="step-item">
+            <span class="step-num">02</span>
+            <div>
+              <p class="step-name">Enter 6-Digit Code</p>
+              <p class="step-note">Paste or type the verification code within the expiry window.</p>
+            </div>
+          </li>
+          <li id="railStep3" class="step-item">
+            <span class="step-num">03</span>
+            <div>
+              <p class="step-name">Verification Complete</p>
+              <p class="step-note">Receive confirmation or restart with another address.</p>
+            </div>
+          </li>
+        </ol>
+      </aside>
+
+      <div class="console" aria-live="polite">
+        <!-- Step 1: Email Entry -->
+        <div id="emailStep">
+          <p class="panel-kicker">Step 1 of 3</p>
+          <h2 class="panel-title">Verify your email.</h2>
+          <p class="panel-sub">Enter your email address. We’ll send you a one-time verification code.</p>
+
+          <form id="emailForm">
+            <div class="field-group">
+              <label class="field-label" for="email">Email address</label>
+              <input
+                id="email"
+                class="text-input"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+                maxlength="254"
+              >
+            </div>
+            <button id="goButton" class="btn-primary" type="submit">Send code</button>
+          </form>
+        </div>
+
+        <!-- Step 2: Code Verification -->
+        <div id="codeStep" class="hidden">
+          <p class="panel-kicker">Step 2 of 3</p>
+          <h2 class="panel-title">Check your inbox.</h2>
+          <p class="panel-sub">Enter the 6-digit code sent to <strong id="sentTo"></strong>.</p>
+
+          <form id="codeForm" novalidate>
+            <div class="field-group">
+              <label class="field-label" for="otp-0">Verification code</label>
+              <div class="otp-grid" id="otpGrid" role="group" aria-label="6-digit verification code">
+                <input id="otp-0" class="otp-cell" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-label="Digit 1 of 6" required>
+                <input id="otp-1" class="otp-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2 of 6" required>
+                <input id="otp-2" class="otp-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3 of 6" required>
+                <input id="otp-3" class="otp-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4 of 6" required>
+                <input id="otp-4" class="otp-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5 of 6" required>
+                <input id="otp-5" class="otp-cell" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6 of 6" required>
+              </div>
+            </div>
+            <button id="verifyButton" class="btn-primary" type="submit">Verify code</button>
+          </form>
+
+          <div class="secondary-actions">
+            <div class="resend-cluster">
+              <button id="resendButton" class="btn-secondary" type="button" disabled>Resend code</button>
+              <span id="resendTimer" class="timer" aria-live="off">Available in 01:00</span>
+            </div>
+            <button id="backButton" class="btn-secondary" type="button">Use another email</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div id="successStep" class="hidden">
+          <div class="success-icon-wrap" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="panel-kicker">Step 3 of 3</p>
+          <h2 class="panel-title">It Works!</h2>
+          <p class="panel-sub">The email address was successfully verified.</p>
+
+          <div class="verified-email-box">
+            <span class="verified-email-label">Verified address</span>
+            <span id="verifiedEmailText" class="verified-email-value"></span>
+          </div>
+
+          <button id="againButton" class="btn-primary" type="button">Again</button>
+        </div>
+
+        <div id="status" class="status-banner" role="status" aria-live="polite">
+          <svg id="statusIcon" class="status-icon hidden" viewBox="0 0 20 20" fill="none" aria-hidden="true"></svg>
+          <span id="statusText"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = "https://vericore.journey-home-verify.workers.dev";
+    const $ = (id) => document.getElementById(id);
+
+    let challengeId = null;
+    let currentEmail = "";
+    let resendUntil = 0;
+    let resendInterval = null;
+
+    const themeButtons = Array.from(document.querySelectorAll("[data-theme-value]"));
+    const otpCells = Array.from(document.querySelectorAll(".otp-cell"));
+
+    function getSavedTheme() {
+      try {
+        const stored = localStorage.getItem("email-verify-theme");
+        if (stored === "system" || stored === "dark" || stored === "light") return stored;
+      } catch {}
+      return "system";
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      try { localStorage.setItem("email-verify-theme", theme); } catch {}
+      themeButtons.forEach((btn) => {
+        btn.setAttribute("aria-checked", String(btn.dataset.themeValue === theme));
+      });
+      const dark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      document.querySelector('meta[name="theme-color"]').content = dark ? "#000000" : "#ffffff";
+    }
+
+    applyTheme(getSavedTheme());
+    themeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => applyTheme(btn.dataset.themeValue));
+    });
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      if (document.documentElement.dataset.theme === "system") applyTheme("system");
+    });
+
+    function updateRail(step) {
+      const s1 = $("railStep1");
+      const s2 = $("railStep2");
+      const s3 = $("railStep3");
+
+      s1.className = "step-item " + (step === "email" ? "is-active" : "is-done");
+      s2.className = "step-item " + (step === "code" ? "is-active" : step === "success" ? "is-done" : "");
+      s3.className = "step-item " + (step === "success" ? "is-active is-done" : "");
+    }
+
+    function show(step) {
+      $("emailStep").classList.toggle("hidden", step !== "email");
+      $("codeStep").classList.toggle("hidden", step !== "code");
+      $("successStep").classList.toggle("hidden", step !== "success");
+      updateRail(step);
+      setStatus("");
+    }
+
+    const STATUS_ICONS = {
+      info: '<circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M10 9v4.5M10 6.5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+      success: '<circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M6.8 10.2l2.1 2.1 4.3-4.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      error: '<circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M10 6.5v4.2M10 13.5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'
+    };
+
+    function setStatus(message, kind = "") {
+      const banner = $("status");
+      const icon = $("statusIcon");
+      const text = $("statusText");
+
+      if (!message) {
+        banner.className = "status-banner";
+        text.textContent = "";
+        icon.classList.add("hidden");
+        icon.innerHTML = "";
+        return;
+      }
+
+      const tone = kind === "error" ? "is-error" : kind === "success" ? "is-success" : "is-info";
+      banner.className = "status-banner is-visible " + tone;
+      text.textContent = message;
+      icon.innerHTML = STATUS_ICONS[kind] || STATUS_ICONS.info;
+      icon.classList.remove("hidden");
+    }
+
+    async function post(path, payload) {
+      const response = await fetch(API_BASE + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      let data = {};
+      try { data = await response.json(); } catch {}
+      if (!response.ok) throw new Error(data.error || "Request failed. Please try again.");
+      return data;
+    }
+
+    function startResendTimer() {
+      resendUntil = Date.now() + 60000;
+      clearInterval(resendInterval);
+      updateResendTimer();
+      resendInterval = setInterval(updateResendTimer, 250);
+    }
+
+    function updateResendTimer() {
+      const remaining = Math.max(0, Math.ceil((resendUntil - Date.now()) / 1000));
+      const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+      const seconds = String(remaining % 60).padStart(2, "0");
+      $("resendTimer").textContent = remaining ? "Available in " + minutes + ":" + seconds : "You can request a new code";
+      $("resendButton").disabled = remaining > 0;
+      if (!remaining) clearInterval(resendInterval);
+    }
+
+    function clearOtp() {
+      otpCells.forEach((cell) => { cell.value = ""; });
+    }
+
+    function getOtpValue() {
+      return otpCells.map((cell) => cell.value.trim()).join("");
+    }
+
+    function fillOtpFromString(raw, startIndex = 0) {
+      const digits = raw.replace(/\D/g, "").slice(0, 6);
+      if (!digits) return;
+      if (digits.length > 1) {
+        for (let i = 0; i < 6; i++) {
+          otpCells[i].value = digits[i] || "";
+        }
+        const focusIdx = Math.min(digits.length, 5);
+        otpCells[focusIdx].focus();
+      } else {
+        otpCells[startIndex].value = digits;
+        if (startIndex < 5) otpCells[startIndex + 1].focus();
+      }
+    }
+
+    otpCells.forEach((cell, idx) => {
+      cell.addEventListener("input", (event) => {
+        const val = event.target.value;
+        const digits = val.replace(/\D/g, "");
+        if (!digits) {
+          event.target.value = "";
+          return;
+        }
+        if (digits.length > 1) {
+          fillOtpFromString(digits, 0);
+        } else {
+          event.target.value = digits;
+          if (idx < 5) otpCells[idx + 1].focus();
+        }
+      });
+
+      cell.addEventListener("keydown", (event) => {
+        if (event.key === "Backspace" && !cell.value && idx > 0) {
+          otpCells[idx - 1].value = "";
+          otpCells[idx - 1].focus();
+          event.preventDefault();
+        } else if (event.key === "ArrowLeft" && idx > 0) {
+          otpCells[idx - 1].focus();
+          event.preventDefault();
+        } else if (event.key === "ArrowRight" && idx < 5) {
+          otpCells[idx + 1].focus();
+          event.preventDefault();
+        }
+      });
+
+      cell.addEventListener("paste", (event) => {
+        const pasted = (event.clipboardData || window.clipboardData).getData("text");
+        if (pasted) {
+          event.preventDefault();
+          fillOtpFromString(pasted, idx);
+        }
+      });
+    });
+
+    $("emailForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = $("email").value.trim();
+      if (!email) return;
+      const button = $("goButton");
+      button.disabled = true;
+      button.textContent = "Sending…";
+      setStatus("Requesting your verification code…", "info");
+      try {
+        const result = await post("/api/send-code", { email });
+        if (!result.challengeId) throw new Error("The server response was incomplete.");
+        challengeId = result.challengeId;
+        currentEmail = email;
+        $("sentTo").textContent = email;
+        clearOtp();
+        show("code");
+        startResendTimer();
+        setStatus("Check your inbox or spam.", "success");
+        otpCells[0].focus();
+      } catch (error) {
+        setStatus(error.message || "Could not send the code.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Send code";
+      }
+    });
+
+    $("resendButton").addEventListener("click", async () => {
+      if (!currentEmail || Date.now() < resendUntil) return;
+      const button = $("resendButton");
+      button.disabled = true;
+      button.textContent = "Sending…";
+      setStatus("Sending a new verification code…", "info");
+      try {
+        const result = await post("/api/send-code", { email: currentEmail });
+        if (!result.challengeId) throw new Error("The server response was incomplete.");
+        challengeId = result.challengeId;
+        clearOtp();
+        startResendTimer();
+        setStatus("New code sent. Check your inbox or spam.", "success");
+        otpCells[0].focus();
+      } catch (error) {
+        setStatus(error.message || "Could not resend the code.", "error");
+        updateResendTimer();
+        if (Date.now() >= resendUntil) button.disabled = false;
+      } finally {
+        button.textContent = "Resend code";
+      }
+    });
+
+    $("codeForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const code = getOtpValue();
+      if (!challengeId || !/^[0-9]{6}$/.test(code)) {
+        setStatus("Enter the 6-digit code.", "error");
+        const firstEmpty = otpCells.find((c) => !c.value);
+        if (firstEmpty) firstEmpty.focus();
+        return;
+      }
+      const button = $("verifyButton");
+      button.disabled = true;
+      button.textContent = "Checking…";
+      setStatus("Checking your code…", "info");
+      try {
+        await post("/api/verify-code", { challengeId, code });
+        clearInterval(resendInterval);
+        $("verifiedEmailText").textContent = currentEmail;
+        show("success");
+      } catch (error) {
+        setStatus(error.message || "That code could not be verified.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Verify code";
+      }
+    });
+
+    function restart() {
+      clearInterval(resendInterval);
+      challengeId = null;
+      currentEmail = "";
+      resendUntil = 0;
+      $("email").value = "";
+      clearOtp();
+      show("email");
+      $("verification").scrollIntoView({ behavior: "smooth", block: "start" });
+      $("email").focus();
+    }
+
+    $("againButton").addEventListener("click", restart);
+    $("backButton").addEventListener("click", restart);
+  </script>
+</body>
+</html>

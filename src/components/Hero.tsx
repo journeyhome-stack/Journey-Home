@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {siteConfig} from '../config/siteConfig';
+import type {PageId} from '../pages/SectionPage';
 import {Button} from './Button';
 
 interface Particle {
@@ -13,10 +14,10 @@ interface Particle {
 }
 
 interface HeroProps {
-  onOpenExplore: () => void;
+  onNavigate: (page: PageId, options?: {anchor?: string}) => void;
 }
 
-export function Hero({onOpenExplore}: HeroProps) {
+export function Hero({onNavigate}: HeroProps) {
   const heroRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [heroImgError, setHeroImgError] = useState(false);
@@ -227,13 +228,13 @@ export function Hero({onOpenExplore}: HeroProps) {
               </Button>
             )}
 
-            <Button href="#download" variant="secondary" size="lg">
+            <Button href="#download" onClick={() => onNavigate('home', {anchor: 'download'})} variant="secondary" size="lg">
               Download
             </Button>
 
             <Button
               href="#/explore"
-              onClick={onOpenExplore}
+              onClick={() => onNavigate('explore')}
               variant="ghost"
               size="lg"
             >
@@ -243,7 +244,11 @@ export function Hero({onOpenExplore}: HeroProps) {
 
           <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
             <a
-              href="#trailer"
+              href="#/trailer"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('screenshots', {anchor: 'trailer'});
+              }}
               className="inline-flex items-center gap-2 min-h-[40px] text-white hover:text-[#4ade80] underline decoration-[#22c55e] underline-offset-4 transition-colors"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#22c55e]" aria-hidden="true">
@@ -297,11 +302,15 @@ export function Hero({onOpenExplore}: HeroProps) {
 
       <div className="relative z-10 pb-6 flex justify-center">
         <a
-          href="#screenshots"
-          aria-label="Scroll down to Screenshots and Trailer"
+          href="#download"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('home', {anchor: 'download'});
+          }}
+          aria-label="Scroll down to Download section"
           className="inline-flex flex-col items-center gap-1.5 min-h-[44px] px-4 text-xs tracking-[0.14em] uppercase text-[#d4d4d4] hover:text-[#4ade80] transition-colors"
         >
-          <span>Screenshots &amp; Download</span>
+          <span>Download &amp; Updates</span>
           <svg
             viewBox="0 0 24 24"
             fill="none"

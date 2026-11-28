@@ -1,25 +1,26 @@
 import {useEffect, useRef, useState} from 'react';
 import {siteConfig} from '../config/siteConfig';
-import {Logo} from './Logo';
+import type {PageId} from '../pages/SectionPage';
 import {SocialIcon} from './SocialIcon';
 
 type LegalModalType = 'privacy' | 'credits' | null;
 
 interface FooterProps {
-  onNavigateHomeSection: (sectionId?: string) => void;
-  onNavigateExplore: () => void;
+  onNavigate: (page: PageId, options?: {anchor?: string}) => void;
 }
 
-const QUICK_LINKS = [
-  {id: 'explore', label: 'Explore Game', isPage: true},
-  {id: 'screenshots', label: 'Screenshots', isPage: false},
-  {id: 'download', label: 'Download', isPage: false},
-  {id: 'news', label: 'News', isPage: false},
-  {id: 'community', label: 'Community', isPage: false},
-  {id: 'faq', label: 'FAQ', isPage: false},
+const QUICK_LINKS: {key: string; page: PageId; anchor?: string; label: string; href: string}[] = [
+  {key: 'home', page: 'home', label: 'Home', href: '#/'},
+  {key: 'explore', page: 'explore', label: 'Explore Game', href: '#/explore'},
+  {key: 'screenshots', page: 'screenshots', label: 'Screenshots', href: '#/screenshots'},
+  {key: 'download', page: 'home', anchor: 'download', label: 'Download', href: '#download'},
+  {key: 'news', page: 'home', anchor: 'news', label: 'News', href: '#news'},
+  {key: 'faq', page: 'home', anchor: 'faq', label: 'FAQ', href: '#faq'},
+  {key: 'community', page: 'home', anchor: 'community', label: 'Community', href: '#community'},
+  {key: 'signin', page: 'signin', label: 'Sign In', href: '#/signin'},
 ];
 
-export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) {
+export function Footer({onNavigate}: FooterProps) {
   const [modalType, setModalType] = useState<LegalModalType>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const enabledSocials = siteConfig.socialLinks.filter((s) => s.enabled);
@@ -54,11 +55,12 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
               href="#/"
               onClick={(e) => {
                 e.preventDefault();
-                onNavigateHomeSection();
+                onNavigate('home');
               }}
               aria-label="Journey Home — Back to home"
+              className="inline-block font-display text-lg font-bold tracking-[0.06em] text-white hover:text-[#4ade80] transition-colors"
             >
-              <Logo />
+              {siteConfig.game.name}
             </a>
             <p className="text-sm text-[#cccccc] leading-relaxed">
               {siteConfig.game.tagline}
@@ -69,15 +71,11 @@ export function Footer({onNavigateHomeSection, onNavigateExplore}: FooterProps) 
             <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-5 gap-y-2">
               {QUICK_LINKS.map((link) => (
                 <a
-                  key={link.id}
-                  href={link.isPage ? '#/explore' : `#${link.id}`}
+                  key={link.key}
+                  href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    if (link.isPage) {
-                      onNavigateExplore();
-                    } else {
-                      onNavigateHomeSection(link.id);
-                    }
+                    onNavigate(link.page, link.anchor ? {anchor: link.anchor} : undefined);
                   }}
                   className="text-sm text-[#d4d4d4] hover:text-[#4ade80] py-1 transition-colors"
                 >
